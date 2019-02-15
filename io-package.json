@@ -1,0 +1,78 @@
+{
+	"common": {
+		"name": "noolitef",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"zh-cn": "首次出版"
+			}
+		},
+		"title": "Noolite-F device protocol support",
+		"titleLang": {
+			"en": "Noolite-F device protocol support",
+			"de": "Unterstützung des Noolite-F-Geräteprotokolls",
+			"ru": "Поддержка протокола устройства Noolite-F",
+			"pt": "Suporte ao protocolo de dispositivo Noolite-F",
+			"nl": "Noolite-F apparaatprotocolondersteuning",
+			"fr": "Prise en charge du protocole d'appareil Noolite-F",
+			"it": "Supporto del protocollo per dispositivi Noolite-F",
+			"es": "Soporte de protocolo del dispositivo Noolite-F",
+			"pl": "Obsługa protokołu urządzeń Noolite-F",
+			"zh-cn": "Noolite-F设备协议支持"
+		},
+		"desc": {
+			"en": "This adapter integrated Noolite-F device into iobroker",
+			"de": "Dieser Adapter hat das Noolite-F-Gerät in den Iobroker integriert",
+			"ru": "Этот адаптер интегрировал устройство Noolite-F в iobroker",
+			"pt": "Este adaptador integrou o dispositivo Noolite-F ao iobroker",
+			"nl": "Dit in de adapter geïntegreerde Noolite-F-apparaat in iobroker",
+			"fr": "Cet adaptateur a intégré le périphérique Noolite-F à iobroker",
+			"it": "Questo adattatore ha integrato il dispositivo Noolite-F in iobroker",
+			"es": "Este adaptador integró el dispositivo Noolite-F en iobroker",
+			"pl": "Ten adapter zintegrował urządzenie Noolite-F z iobroker",
+			"zh-cn": "该适配器将Noolite-F设备集成到iobroker中"
+		},
+		"authors": [
+			"Pavel Tsytovich <pavel.tsytovich@gmail.com>"
+		],
+		"keywords": [
+			"ioBroker",
+			"template",
+			"Smart Home",
+			"home automation"
+		],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "main.js",
+		"icon": "noolitef.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/paveltsytovich/ioBroker.noolitef/master/admin/noolitef.png",
+		"readme": "https://github.com/paveltsytovich/ioBroker.noolitef/blob/master/README.md",
+		"loglevel": "info",
+		"mode": "daemon",
+		"type": "hardware",
+		"compact": true,
+		"materialize": true,
+		"supportCustoms": true,
+		"dependencies": [
+			{
+				"admin": ">=3.0.0"
+			}
+		]
+	},
+	"native": {
+		"option1": true,
+		"option2": "42"
+	},
+	"objects": [],
+	"instanceObjects": []
+}
