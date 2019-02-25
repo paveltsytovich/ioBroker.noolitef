@@ -1,41 +1,22 @@
 /*global systemDictionary:true */
 'use strict';
 
-systemDictionary = {
-	'noolitef adapter settings': {
-		'en': 'Adapter settings for noolitef',
-		'de': 'Adaptereinstellungen für noolitef',
-		'ru': 'Настройки адаптера для noolitef',
-		'pt': 'Configurações do adaptador para noolitef',
-		'nl': 'Adapterinstellingen voor noolitef',
-		'fr': "Paramètres d'adaptateur pour noolitef",
-		'it': "Impostazioni dell'adattatore per noolitef",
-		'es': 'Ajustes del adaptador para noolitef',
-		'pl': 'Ustawienia adaptera dla noolitef',
-		'zh-cn': 'noolitef的适配器设置'
-	},
-	'option1': {
-		'en': 'option1',
-		'de': 'Option 1',
-		'ru': 'Опция 1',
-		'pt': 'Opção 1',
-		'nl': 'Optie 1',
-		'fr': 'Option 1',
-		'it': 'opzione 1',
-		'es': 'Opción 1',
-		'pl': 'opcja 1',
-		'zh-cn': '选项1'
-	},
-	'option2': {
-		'en': 'option2',
-		'de': 'Option 2',
-		'ru': 'option2',
-		'pt': 'opção 2',
-		'nl': 'Optie 2',
-		'fr': 'Option 2',
-		'it': 'opzione 2',
-		'es': 'opcion 2',
-		'pl': 'Opcja 2',
-		'zh-cn': '选项2'
-	}
+var systemDictionary = {
+	"Noolite adapter settings" : {"en": "Noolite adapter setting", "ru": "Настройки адаптера Noolite" },
+	"MTRF64 device" : {"en": "MTRF64 adapter path", "ru": "Путь к устройству MTRF64"},
+	"Device List" : {"en" : "Noolite Device List", "ru" : "Список устройств Noolite"},
+	"Name" : { "en" : "Device name", "ru" : "Имя устройства"},
+	"Channel" : {"en" : "Channel number","ru" : "Номер канала"},
+	"Remote Control" : { "en": "Remote control device", "ru": "Пульт Noolite"},
+	"Door Sensor" : { "en" : "Door Sensor", "ru": "Датчик открытия двери"},
+	"Water Sensor": { "en": "Water Sensor", "ru": "Датчик протечки"},
+	"Dimmer" : { "en" : "Dimmer", "ru": "Диммер"},
+	"RGB" : {"en": "RGB ribbon", "ru": "RGB-лента"},
+	"Switch": {"en" : "Switch", "ru": "Обычное реле"},
+	"Bind" : { "en" : "Bind", "ru" : "Привязка"},
+	"Unbind" : { "en" : "Unbind", "ru" : "Отвязка"},
+	"Protocol-NooliteF" : {"en" : "Noolite-F protocol", "ru": "Протокол Noolite-F"},
+	"Protocol-Noolite" : { "en" : "Noolite protocol", "ru": "Протокол Noolite"},
+	"Protocol" : {"en" : "Protocol", "ru" : "Протокол"},
+	"Type" : {"en" : "Device Type", "ru" : "Тип устройства"}
 };
