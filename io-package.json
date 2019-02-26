@@ -70,8 +70,8 @@
 		]
 	},
 	"native": {
-		"option1": true,
-		"option2": "42"
+		"devPath": true,
+		"devices": []
 	},
 	"objects": [],
 	"instanceObjects": []
