@@ -1,5 +1,5 @@
 <html>
-
+<head>
 	<link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
 	<link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
 
@@ -22,22 +22,22 @@
         border-spacing: 0;
         border-image-width: 0;
     }
+	#values {
+		height: calc(100% - 230px);
+	}
 </style>
 <script type="text/javascript">
 	
-	var onchange = null;
-    var channels = [];
-	var active   = false;
 	function setValue(id, value, onChange) {
         var $value = $('#' + id + '.value');
         if ($value.attr('type') === 'checkbox') {
-            $value.prop('checked', value).change(function() {
+            $value.prop('checked', value).on('change', function() {
                 onChange();
             });
         } else {
-            $value.val(value).change(function() {
+            $value.val(value).on('change', function() {
                 onChange();
-            }).keyup(function() {
+            }).on('keyup', function() {
                 // Check that only numbers entered
                 if ($(this).hasClass('number')) {
                     var val = $(this).val();
@@ -49,7 +49,7 @@
                             }
                         }
 
-                        if (val != newVal) $(this).val(newVal);
+                        if (val !== newVal) $(this).val(newVal);
                     }
                 }
 
@@ -57,6 +57,7 @@
             });
         }
     }
+
 	function save(callback) {
         var obj = {};
         $('.value').each(function () {
@@ -84,63 +85,45 @@
             if (settings.hasOwnProperty(key) && !Array.isArray(settings[key])) setValue(key, settings[key], onChange);
         }
 
-        values2table('values', devices, onChange,() => {
-			$('[data-name="type"').each((i,elem) => {
-				if(elem.nodeName == "INPUT") {
-				 let val = $(elem).val();
-				 $(elem).replaceWith('<select data-name="Type">'+
-					'<option value=0 >' + _('Remote Control') + '</option>' +
-					'<option value=1 >' + _('Door Sensor') + '</option>' +
-					'<option value=2 >' + _('Water Sensor') + '</option>' +
-					'<option value=3 >' + _('Dimmer') + '</option>' +
-					'<option value=4 >' + _('RGB') + '</option>' +
-					'<option value=5 >' + _('Switch') + '</option>' +
-					'</select>');
-				 $(elem).val(val);
-				 }
-			});
-			$('[data-name="protocol"').each((i,elem) => {
-				if(elem.nodeName == "INPUT") {
-				 let val = $(elem).val();
-				 $(elem).replaceWith('<select data-name="protocol">'+
-					'<option value=0 >' + _('NooliteF') + '</option>' +
-					'<option value=1 >' + _('Noolite') + '</option>' +					
-					'</select>');
-				 $(elem).val(val);
-				 }
-			});
-		});
+        values2table('values', devices, onChange);
 
         onChange(false);
     }
 
 
 </script>
-<div id="adapter-container">
-	<table>
-		<tr><td><img src="noolite.png"></td><td><h3 class="translate">Noolite adapter settings</h3></td></tr>
-	</table>
-	<table>
-    	<tr><td class="translate" style="text-align: right">MTRF64 device</td><td><input  class="value" id="devpath"/></td><td></td></tr>
-	</table>
-	<h4 class="translate">Device List</h4>
-	<div id="values" style="width: 100%; height: calc(100% - 230px)">
-		<button class="table-button-add" style="margin-left: 10px; width: 1.5em; height: 1.5em"></button> 
-		<div style="width: 100%; height: calc(100% - 30px); overflow: auto;">
-			<table class="table-values" style="width: 100%;">
-				<thead>
+</head>
+<body>
+<div class="m adapter-container">
+	<div class="row" style="margin-bottom: 0">
+		<div class="col s6">
+			<img src="noolitef.png" class="logo">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s12">
+			<input class="value" id="devPath" type="text"/>
+			<label class="translate" for="devPath">MTRF64 device</label>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s12" id="values">
+			<h6 class="translate">Device List</h6>
+			<a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
+			<div class="table-values-div">
+				<table class="table-values">
+					<thead>
 					<tr>
-						<th data-name="protocol" style="width: 10%" class="translate">Protocol</th>	
-						<th data-name="channel" style="width: 10%" class="translate number">Channel</th>	
-						<th data-name="type" style="width: 20%" class="translate">Type</th>
+						<th data-name="protocol" data-options="0/Remote Control;1/Door Sensor;2/Water Sensor;3/Dimmer;4/RGB;5/Switch" data-default="0" style="width: 200px" data-type="select" class="translate">Protocol</th>
+						<th data-name="channel" style="width: 100px" data-type="number" class="translate">Channel</th>
+						<th data-name="type" style="width: 100px" data-type="select" data-options="0/NooliteF;1/Noolite" data-default="0" class="translate">Type</th>
 						<th data-name="name" style="width: 40%" class="translate">Name</th>
-						<th class="translate">Bind/Unbind</th>
-						<th data-buttons="add" style="width: 40px"></th>
-						<th data-buttons="remove" style="width: 40px"></th>
-						<th data-buttons="delete" style="width: 40px"></th>
+						<th data-buttons="pair unpair delete up down" style="width: 80px">Bind/Unbind</th>
 					</tr>
-				</thead>
-			</table>	
+					</thead>
+				</table>
+			</div>
 		</div>
 	</div>
 </div>
+</body>
