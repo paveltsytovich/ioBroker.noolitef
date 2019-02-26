@@ -28,7 +28,35 @@
 	var onchange = null;
     var channels = [];
 	var active   = false;
-	
+	function setValue(id, value, onChange) {
+        var $value = $('#' + id + '.value');
+        if ($value.attr('type') === 'checkbox') {
+            $value.prop('checked', value).change(function() {
+                onChange();
+            });
+        } else {
+            $value.val(value).change(function() {
+                onChange();
+            }).keyup(function() {
+                // Check that only numbers entered
+                if ($(this).hasClass('number')) {
+                    var val = $(this).val();
+                    if (val) {
+                        var newVal = '';
+                        for (var i = 0; i < val.length; i++) {
+                            if (val[i] >= '0' && val[i] <= '9') {
+                                newVal += val[i];
+                            }
+                        }
+
+                        if (val != newVal) $(this).val(newVal);
+                    }
+                }
+
+                onChange();
+            });
+        }
+    }
 	function save(callback) {
         var obj = {};
         
@@ -38,7 +66,34 @@
 	function load(settings, onChange) {
         if (!settings) return;
 
-        //TO DO
+        if (settings.devpath === undefined) settings.devpath = false;
+
+        var devices = settings.devices || [];
+
+        for (var key in settings) {
+            if (settings.hasOwnProperty(key)) setValue(key, settings[key], onChange);
+        }
+
+        values2table('values', devices, onChange,() => {
+			$('[data-name="type"').each((i,elem) => {
+				if(elem.nodeName == "INPUT")
+				 $(elem).replaceWith('<select data-name="Type">'+
+					'<option value=0 >' + _('Remote Control') + '</option>' +
+					'<option value=1 >' + _('Door Sensor') + '</option>' +
+					'<option value=2 >' + _('Water Sensor') + '</option>' +
+					'<option value=3 >' + _('Dimmer') + '</option>' +
+					'<option value=4 >' + _('RGB') + '</option>' +
+					'<option value=5 >' + _('Switch') + '</option>' +
+					'</select>');
+			});
+			$('[data-name="protocol"').each((i,elem) => {
+				if(elem.nodeName == "INPUT")
+				 $(elem).replaceWith('<select data-name="protocol">'+
+					'<option value=0 >' + _('NooliteF') + '</option>' +
+					'<option value=1 >' + _('Noolite') + '</option>' +					
+					'</select>');
+			});
+		});
 
         onChange(false);
     }
@@ -61,9 +116,12 @@
 					<tr>
 						<th data-name="protocol" style="width: 10%" class="translate">Protocol</th>	
 						<th data-name="channel" style="width: 10%" class="translate">Channel</th>	
-						<th data-name="Type" style="width: 20%" class="translate">Type</th>
+						<th data-name="type" style="width: 20%" class="translate">Type</th>
 						<th data-name="name" style="width: 40%" class="translate">Name</th>
-						<th>&nbsp;</th>
+						<th class="translate">Bind/Unbind</th>
+						<th data-buttons="add" style="width: 40px"></th>
+						<th data-buttons="remove" style="width: 40px"></th>
+						<th data-buttons="delete" style="width: 40px"></th>
 					</tr>
 				</thead>
 			</table>	

@@ -15,8 +15,9 @@ var systemDictionary = {
 	"Switch": {"en" : "Switch", "ru": "Обычное реле"},
 	"Bind" : { "en" : "Bind", "ru" : "Привязка"},
 	"Unbind" : { "en" : "Unbind", "ru" : "Отвязка"},
-	"Protocol-NooliteF" : {"en" : "Noolite-F protocol", "ru": "Протокол Noolite-F"},
-	"Protocol-Noolite" : { "en" : "Noolite protocol", "ru": "Протокол Noolite"},
+	"NooliteF" : {"en" : "Noolite-F protocol", "ru": "Протокол Noolite-F"},
+	"Noolite" : { "en" : "Noolite protocol", "ru": "Протокол Noolite"},
 	"Protocol" : {"en" : "Protocol", "ru" : "Протокол"},
-	"Type" : {"en" : "Device Type", "ru" : "Тип устройства"}
+	"Type" : {"en" : "Device Type", "ru" : "Тип устройства"},
+	"Bind/Unbind": {"en" : "Device Bind/Unbind", "ru": "Привязка/Отвязка устройства"}
 };
