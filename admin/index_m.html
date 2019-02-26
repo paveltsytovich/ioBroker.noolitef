@@ -59,10 +59,20 @@
     }
 	function save(callback) {
         var obj = {};
-        
-		//TO DO
+        $('.value').each(function () {
+            var $this = $(this);
+            if ($this.attr('type') === 'checkbox') {
+                obj[$this.attr('id')] = $this.prop('checked');
+            } else {
+                obj[$this.attr('id')] = $this.val();
+            }
+        });
+
+        // Get edited table
+        obj.devices = table2values('values');
+
         callback(obj);
-	}
+    }
 	function load(settings, onChange) {
         if (!settings) return;
 
@@ -71,12 +81,13 @@
         var devices = settings.devices || [];
 
         for (var key in settings) {
-            if (settings.hasOwnProperty(key)) setValue(key, settings[key], onChange);
+            if (settings.hasOwnProperty(key) && !Array.isArray(settings[key])) setValue(key, settings[key], onChange);
         }
 
         values2table('values', devices, onChange,() => {
 			$('[data-name="type"').each((i,elem) => {
-				if(elem.nodeName == "INPUT")
+				if(elem.nodeName == "INPUT") {
+				 let val = $(elem).val();
 				 $(elem).replaceWith('<select data-name="Type">'+
 					'<option value=0 >' + _('Remote Control') + '</option>' +
 					'<option value=1 >' + _('Door Sensor') + '</option>' +
@@ -85,13 +96,18 @@
 					'<option value=4 >' + _('RGB') + '</option>' +
 					'<option value=5 >' + _('Switch') + '</option>' +
 					'</select>');
+				 $(elem).val(val);
+				 }
 			});
 			$('[data-name="protocol"').each((i,elem) => {
-				if(elem.nodeName == "INPUT")
+				if(elem.nodeName == "INPUT") {
+				 let val = $(elem).val();
 				 $(elem).replaceWith('<select data-name="protocol">'+
 					'<option value=0 >' + _('NooliteF') + '</option>' +
 					'<option value=1 >' + _('Noolite') + '</option>' +					
 					'</select>');
+				 $(elem).val(val);
+				 }
 			});
 		});
 
@@ -115,7 +131,7 @@
 				<thead>
 					<tr>
 						<th data-name="protocol" style="width: 10%" class="translate">Protocol</th>	
-						<th data-name="channel" style="width: 10%" class="translate">Channel</th>	
+						<th data-name="channel" style="width: 10%" class="translate number">Channel</th>	
 						<th data-name="type" style="width: 20%" class="translate">Type</th>
 						<th data-name="name" style="width: 40%" class="translate">Name</th>
 						<th class="translate">Bind/Unbind</th>
