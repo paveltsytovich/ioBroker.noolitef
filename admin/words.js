@@ -19,5 +19,5 @@ var systemDictionary = {
 	"Noolite" : { "en" : "Noolite protocol", "ru": "Протокол Noolite"},
 	"Protocol" : {"en" : "Protocol", "ru" : "Протокол"},
 	"Type" : {"en" : "Device Type", "ru" : "Тип устройства"},
-	"Bind/Unbind": {"en" : "Device Bind/Unbind", "ru": "Привязка/Отвязка устройства"}
+	"Link": {"en" : "Device Bind/Unbind", "ru": "Привязка/Отвязка устройства"}
 };
