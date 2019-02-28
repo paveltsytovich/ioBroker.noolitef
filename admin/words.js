@@ -23,5 +23,6 @@ var systemDictionary = {
 	"Common" : {"en": "Common property", "ru": "Общие настройки"},
 	"MQTT Settings": {"en" : "MQTT Settings", "ru" : "Настройки MQTT"},
 	"Use for input" : {"en" : "Use MQTT for receive events from Noolite Remote control devices", "ru": "Использовать MQTT для получения событий от пультов Noolite"},
-	"Use for output" : {"en" : "Put into MQTT state change events of Relay", "ru": "Помещать в MQTT события об измении состояний на силовых блоках"}
+	"Use for output" : {"en" : "Put into MQTT state change events of Relay", "ru": "Помещать в MQTT события об измении состояний на силовых блоках"},
+	"Notes" : {"en" : "MQTT topic`s name is Adapter\\DeviceName for each Noolite devices", "ru": "Для каждого Noolite устройства топик в MQTT имеет имя АДАПТЕР\\ИМЯУСТРОЙСТВА"}
 };

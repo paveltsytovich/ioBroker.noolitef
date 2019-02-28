@@ -103,36 +103,70 @@
 </head>
 <body>
 <div class="m adapter-container" style="overflow: visible">
-	<div class="row" style="margin-bottom: 0">
-		<div class="col s6">
-			<img src="noolitef.png" class="logo">
-		</div>
-	</div>
-	<div class="row">
-		<div class="col s12">
-			<input class="value" id="devPath" type="text"/>
-			<label class="translate" for="devPath">MTRF64 device</label>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col s12" id="values">
-			<h6 class="translate">Device List</h6>
-			<a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
-			<div class="table-values-div" >
-				<table class="table-values">
-					<thead>
-					<tr>
-                        <th data-name="_index"   style="width: 20px" class="translate"></th>
-						<th data-name="type" data-options="0/Remote Control;1/Door Sensor;2/Water Sensor;3/Dimmer;4/RGB;5/Switch" data-default="0" style="width: 200px" data-type="select" class="translate">Type</th>
-						<th data-name="channel" style="width: 100px" data-type="number" class="translate">Channel</th>
-						<th data-name="protocol" style="width: 100px;" data-type="select" data-options="0/NooliteF;1/Noolite" data-default="0" class="translate">Protocol</th>
-						<th data-name="name" style="width: 40%" class="translate">Name</th>
-						<th data-buttons="pair unpair delete" style="width: 80px">Link</th>
-					</tr>
-					</thead>
-				</table>
-			</div>
-		</div>
-	</div>
+    <div class="main-page row">
+        <div class="col s12">
+            <ul class="tabs">
+                <li class="tab col s4"><a href="#tab-main" class="translate active">Common</a></li>
+                <li class="tab col s4"><a href="#tab-mqtt" class="translate">MQTT Settings</a></li>
+            </ul>
+        </div>
+        <div id="tab-main" class="col s12 page">
+            <div class="row" style="margin-bottom: 0">
+                <div class="col s6">
+                    <img src="noolitef.png" class="logo">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                <input class="value" id="devPath" type="text"/>
+                <label class="translate" for="devPath">MTRF64 device</label>
+                </div>
+            </div>
+                <div class="row">
+                    <div class="col s12" id="values">
+                        <h6 class="translate">Device List</h6>
+                        <a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
+                        <div class="table-values-div" >
+                            <table class="table-values">
+                                <thead>
+                                <tr>
+                                    <th data-name="_index"   style="width: 20px" class="translate"></th>
+                                    <th data-name="type" data-options="0/Remote Control;1/Door Sensor;2/Water Sensor;3/Dimmer;4/RGB;5/Switch" data-default="0" style="width: 200px" data-type="select" class="translate">Type</th>
+                                    <th data-name="channel" style="width: 100px" data-type="number" class="translate">Channel</th>
+                                    <th data-name="protocol" style="width: 100px;" data-type="select" data-options="0/NooliteF;1/Noolite" data-default="0" class="translate">Protocol</th>
+                                    <th data-name="name" style="width: 40%" class="translate">Name</th>
+                                    <th data-buttons="pair unpair delete" style="width: 80px">Link</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>        
+         </div>
+    <div id="tab-mqtt" class="col s12 page">
+        <div class="row" style="margin-bottom: 0">
+            <div class="col s6">
+                <img src="noolitef.png" class="logo">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                    <input class="value" id="isMqttInput" type="checkbox"/>
+                    <label class="translate" for="isMqttInput">Use for input</label> 
+            </div>
+        </div>
+        <div class="row">
+                <div class="col s12">                    
+                        <input class="value" id="isMqttOutput" type="checkbox"/>
+                        <label class="translate" for="isMqttOutput">Use for output</label>
+                </div>
+        </div>
+        <div class="row">
+                <div class="col s12">
+                       <p class="translate">Notes</p>
+                </div>
+        </div>
+    </div>
+    </div>
 </div>
 </body>
