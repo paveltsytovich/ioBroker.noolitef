@@ -97,7 +97,10 @@
     }
     function pairing(device,isPair) {
       if(isPair) {
-          showMessage(_('Brief for bind'), _('Bind'),"<img src='relay.jpg' class='logo'/>");
+        confirmMessage(_('Brief for bind'),_('Bind'),"<img src='relay.jpg' class='logo'/>",
+            [_('YesBind'),_('Nobind')],(id) => {
+                alert(id);
+            }) ; 
       }
       else {
             confirmMessage(_('Brief for unbind'),_('Unbind'),"<img src='relay.jpg' class='logo'/>",

@@ -25,8 +25,10 @@ var systemDictionary = {
 	"Use for input" : {"en" : "Use MQTT for receive events from Noolite Remote control devices", "ru": "Использовать MQTT для получения событий от пультов Noolite"},
 	"Use for output" : {"en" : "Put into MQTT state change events of Relay", "ru": "Помещать в MQTT события об измении состояний на силовых блоках"},
 	"Notes" : {"en" : "MQTT topic`s name is Adapter\\DeviceName for each Noolite devices", "ru": "Для каждого Noolite устройства топик в MQTT имеет имя АДАПТЕР\\ИМЯУСТРОЙСТВА"},
-	"Brief for bind" : {"en" : "Please press button on Noolite Device and them press Ok button","ru": "Пожалуйста, нажмите кнопку на блоке Noolite, а затем нажмите кнопку Ok"},
+	"Brief for bind" : {"en" : "BEFORE make this procedure, please read manual for your Noolite device. First of all press buton on your device and them press button ob this dialog","ru": "Пожалуйста, ПРОЧТИТЕ инструкцию к вашему Noolite устройству. Сначала нажмите кнопку на устройстве и только потом на этой панели диалога"},
 	"Brief for unbind" : {"en" : "You are sure. This device will be unpair from your MTRF64 adapter","ru": "Вы уверены? Ваше устройство будет отсодинено от адаптера MTRF64"},
-	"YesUnBind" : {"en" : "Yes, please undind this device", "ru" : "Да, нужно отвязать устройство" },
-	"NoUnbind" : {"en" : "No, I do mistake", "ru" : "Нет, я ошибся"}
+	"YesUnBind" : {"en" : "Yes, please unbind this device", "ru" : "Да, нужно отвязать устройство" },
+	"NoUnbind" : {"en" : "No, I do mistake", "ru" : "Нет, я ошибся"},
+	"YesBind" : {"en" : "Yes, please bind this device with MTRF64 Adapter", "ru" : "Да, привязать устройство к адаптеру MTRF64" },
+	"Nobind" : {"en" : "No, I do mistake", "ru" : "Нет, я ошибся"}
 };
