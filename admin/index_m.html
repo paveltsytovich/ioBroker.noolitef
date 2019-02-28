@@ -99,6 +99,12 @@
       if(isPair) {
           showMessage(_('Brief for bind'), _('Bind'),"<img src='relay.jpg' class='logo'/>");
       }
+      else {
+            confirmMessage(_('Brief for unbind'),_('Unbind'),"<img src='relay.jpg' class='logo'/>",
+            [_('YesUnBind'),_('NoUnbind')],(id) => {
+                alert(id);
+            }) ; 
+      }
     }
 
 </script>
