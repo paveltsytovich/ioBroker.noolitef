@@ -77,7 +77,9 @@
 	function load(settings, onChange) {
         if (!settings) return;
 
-        if (settings.devPath === undefined) settings.devPath = '/dev/ttyUSB0';
+        if (settings.devpath === undefined) settings.devpath = '/dev/ttyUSB0';
+        if (settings.isMqttOutput === undefined) settings.isMqttOutput = false;
+        if (settings.isMqttIutput === undefined) settings.isMqttIutput = false;
 
         var devices = settings.devices || [];
 
@@ -139,8 +141,8 @@
             </div>
             <div class="row">
                 <div class="col s12">
-                <input class="value" id="devPath" type="text"/>
-                <label class="translate" for="devPath">MTRF64 device</label>
+                <input class="value" id="devpath" type="text"/>
+                <label class="translate" for="devpath">MTRF64 device</label>
                 </div>
             </div>
                 <div class="row">
