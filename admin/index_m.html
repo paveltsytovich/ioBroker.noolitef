@@ -87,15 +87,17 @@
 
         values2table('values', devices, onChange, function () {
         $('a[data-command="pair"]').on('click',(e) => { 
-        console.log('Pair ' + $(e.currentTarget).data('index'));
+            pairing(devices[$(e.currentTarget).data('index')],true);
         });
         $('a[data-command="unpair"]').on('click',(e) => { 
-        console.log('UnPair ' + $(e.currentTarget).data('index'));
+            pairing(devices[$(e.currentTarget).data('index')],false);
         });
         });
                 onChange(false);
     }
-
+    function pairing(device,isPair) {
+        console.log(device);
+    }
 
 </script>
 </head>
