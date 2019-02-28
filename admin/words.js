@@ -24,5 +24,7 @@ var systemDictionary = {
 	"MQTT Settings": {"en" : "MQTT Settings", "ru" : "Настройки MQTT"},
 	"Use for input" : {"en" : "Use MQTT for receive events from Noolite Remote control devices", "ru": "Использовать MQTT для получения событий от пультов Noolite"},
 	"Use for output" : {"en" : "Put into MQTT state change events of Relay", "ru": "Помещать в MQTT события об измении состояний на силовых блоках"},
-	"Notes" : {"en" : "MQTT topic`s name is Adapter\\DeviceName for each Noolite devices", "ru": "Для каждого Noolite устройства топик в MQTT имеет имя АДАПТЕР\\ИМЯУСТРОЙСТВА"}
+	"Notes" : {"en" : "MQTT topic`s name is Adapter\\DeviceName for each Noolite devices", "ru": "Для каждого Noolite устройства топик в MQTT имеет имя АДАПТЕР\\ИМЯУСТРОЙСТВА"},
+	"Brief for bind" : {"en" : "Please press button on Noolite Device and them press Ok button","ru": "Пожалуйста, нажмите кнопку на блоке Noolite, а затем нажмите кнопку Ok"},
+	"Brief for unbind" : {"en" : "You are sure. This device will be unpair from your MTRF64 adapter","ru": "Вы уверены? Ваше устройство будет отсодинено от адаптера MTRF64"}
 };
