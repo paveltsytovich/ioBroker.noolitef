@@ -96,7 +96,9 @@
                 onChange(false);
     }
     function pairing(device,isPair) {
-        console.log(device);
+      if(isPair) {
+          showMessage(_('Brief for bind'), _('Bind'),"<img src='relay.jpg' class='logo'/>");
+      }
     }
 
 </script>
