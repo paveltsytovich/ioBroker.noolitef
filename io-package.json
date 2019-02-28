@@ -63,6 +63,8 @@
 		"compact": true,
 		"materialize": true,
 		"supportCustoms": true,
+		"messagebox" : true,
+		"message" : true,
 		"dependencies": [
 			{
 				"admin": ">=3.0.0"

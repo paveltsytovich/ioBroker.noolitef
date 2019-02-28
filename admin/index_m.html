@@ -99,13 +99,23 @@
       if(isPair) {
         confirmMessage(_('Brief for bind'),_('Bind'),"<img src='relay.jpg' class='logo'/>",
             [_('YesBind'),_('Nobind')],(id) => {
-                alert(id);
+                if(id == 0) {
+                    let data = JSON.stringify(device);
+                    sendTo(null,'Bind',data,(msg) => {
+                        alert(msg);
+                    });
+                }
             }) ; 
       }
       else {
             confirmMessage(_('Brief for unbind'),_('Unbind'),"<img src='relay.jpg' class='logo'/>",
             [_('YesUnBind'),_('NoUnbind')],(id) => {
-                alert(id);
+                if(id == 0) {
+                    let data = JSON.stringify(device);
+                    sendTo(null,'Unbind',data,(msg) => {
+                        alert(msg);
+                    });
+                }
             }) ; 
       }
     }
