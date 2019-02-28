@@ -63,6 +63,8 @@
 		"compact": true,
 		"materialize": true,
 		"supportCustoms": true,
+		"messagebox" : true,
+		"message" : true,
 		"dependencies": [
 			{
 				"admin": ">=3.0.0"
@@ -70,8 +72,10 @@
 		]
 	},
 	"native": {
-		"option1": true,
-		"option2": "42"
+		"devpath": "/dev/ttyUSB0",
+		"devices": [],
+		"isMqttOutput":false,
+		"isMqttIutput" : false
 	},
 	"objects": [],
 	"instanceObjects": []
