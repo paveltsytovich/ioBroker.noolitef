@@ -104,7 +104,8 @@
                 if(id == 0) {
                     let data = JSON.stringify(device);
                     sendTo(null,'Bind',data,(msg) => {
-                        alert(msg);
+                       if(msg !== "OK")
+                        showError(msg)
                     });
                 }
             }) ; 
@@ -115,7 +116,8 @@
                 if(id == 0) {
                     let data = JSON.stringify(device);
                     sendTo(null,'Unbind',data,(msg) => {
-                        alert(msg);
+                        if(msg !== "OK")
+                        showError(msg)
                     });
                 }
             }) ; 
