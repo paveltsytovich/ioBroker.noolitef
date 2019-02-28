@@ -72,8 +72,10 @@
 		]
 	},
 	"native": {
-		"devPath": true,
-		"devices": []
+		"devpath": "/dev/ttyUSB0",
+		"devices": [],
+		"isMqttOutput":false,
+		"isMqttIutput" : false
 	},
 	"objects": [],
 	"instanceObjects": []
