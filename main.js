@@ -130,14 +130,19 @@ class Noolitef extends utils.Adapter {
 	 * @param {ioBroker.Message} obj
 	 */
 	onMessage(obj) {
-		this.log.info(obj);
+		this.log.info(JSON.stringify(obj));
 		if (typeof obj === "object" && obj.message) {
-			if (obj.command === "send") {
+			if (obj.command === "Bind") {
 				// e.g. send email or pushover or whatever
-				this.log.info("send command");
+				this.log.info("Bind command");
 
 				// Send response in callback if required
-				if (obj.callback) this.sendTo(obj.from, obj.command, "Message received", obj.callback);
+				if (obj.callback) this.sendTo(obj.from, obj.command, "OK", obj.callback);
+			}
+			else if(obj.command == "Unbind") {
+				this.log.info("Unbind command");
+				if (obj.callback) this.sendTo(obj.from, obj.command, "OK", obj.callback);
+
 			}
 		}
 	}

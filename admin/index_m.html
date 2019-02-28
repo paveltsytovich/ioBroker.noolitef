@@ -77,7 +77,7 @@
 	function load(settings, onChange) {
         if (!settings) return;
 
-        if (settings.devpath === undefined) settings.devpath = false;
+        if (settings.devPath === undefined) settings.devPath = '/dev/ttyUSB0';
 
         var devices = settings.devices || [];
 
