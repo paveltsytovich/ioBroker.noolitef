@@ -24,7 +24,7 @@ class Noolitef extends utils.Adapter {
 		this.on('ready', this.onReady);
 		this.on('objectChange', this.onObjectChange);
 		this.on('stateChange', this.onStateChange);
-		this.on("message", this.onMessage);
+		this.on('message', this.onMessage);
 		this.on('unload', this.onUnload);
 	}
 
