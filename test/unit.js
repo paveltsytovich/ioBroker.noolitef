@@ -10,8 +10,8 @@ tests.unit(path.join(__dirname, '..'), {
 		'serialport': FakeSerialPort
 	},
 	defineAdditionalTests() {
-		//const { adapter, database } = utils.unit.createMocks();
-		//const { assertObjectExists } = utils.unit.createAsserts(database, adapter);
+	    const { adapter, database } = utils.unit.createMocks();
+		const { assertObjectExists } = utils.unit.createAsserts(database, adapter);
 		it('work', () => {
 			adapter.setForeignState('noolitef.0',{val:2, ack: true});
 			//adapter.setForeignStateChanged('noolitef.0');
