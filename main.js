@@ -7,7 +7,8 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 const utils = require('@iobroker/adapter-core');
-
+const MTRF64Driver = require('mtrf64');
+const SerialPort = require('serialport');
 // Load your modules here, e.g.:
 // const fs = require("fs");
 
@@ -21,22 +22,24 @@ class Noolitef extends utils.Adapter {
 			...options,
 			name: 'noolitef',
 		});
+		this.serialport = null;
 		this.on('ready', this.onReady);
 		this.on('objectChange', this.onObjectChange);
 		this.on('stateChange', this.onStateChange);
 		this.on('message', this.onMessage);
 		this.on('unload', this.onUnload);
+			
 	}
-
 	/**
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	async onReady() {
 
 		//TO DO
-
+		this.serialport = new SerialPort('/dev/ttyUSB0');//TODO
 		// in this template all states changes inside the adapters namespace are subscribed
 		this.subscribeStates('*');
+		this.log.debug('adapter ' + this.name + 'is ready');
 
 	}
 
@@ -78,7 +81,7 @@ class Noolitef extends utils.Adapter {
 	onStateChange(id, state) {
 
         //TO DO
-
+		this.log.info('state change from ' + id + 'with ' + JSON.stringify(state));
 		// if (state) {
 		// 	// The state was changed
 		// 	this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
@@ -109,6 +112,9 @@ class Noolitef extends utils.Adapter {
 
 			}
 		}
+	}
+	_internal() {
+		console.log('stub');
 	}
 
 }
