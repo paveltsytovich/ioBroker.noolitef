@@ -37,6 +37,8 @@ class Noolitef extends utils.Adapter {
 
 		//TO DO
 		this.serialport = new SerialPort('/dev/ttyUSB0');//TODO
+		if(!this.serialport.isOpen && !this.serialport.opening)
+		 this.serialport.open();
 		// in this template all states changes inside the adapters namespace are subscribed
 		this.subscribeStates('*');
 		this.log.debug('adapter ' + this.name + 'is ready');
@@ -49,6 +51,10 @@ class Noolitef extends utils.Adapter {
 	 */
 	onUnload(callback) {
 		try {
+			if(this.serialport.isOpen) {
+				this.serialport.close();				
+			}
+			delete this.serialport;
 			this.log.info('cleaned everything up...');
 			callback();
 		} catch (e) {
