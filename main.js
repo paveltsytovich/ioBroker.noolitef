@@ -28,20 +28,26 @@ class Noolitef extends utils.Adapter {
 		this.on('stateChange', this.onStateChange);
 		this.on('message', this.onMessage);
 		this.on('unload', this.onUnload);
-			
+
 	}
 	/**
 	 * Is called when databases are connected and adapter received configuration.
 	 */
-	async onReady() {
-
-		//TO DO
-		this.serialport = new SerialPort('/dev/ttyUSB0');//TODO
-		if(!this.serialport.isOpen && !this.serialport.opening)
-		 this.serialport.open();
-		// in this template all states changes inside the adapters namespace are subscribed
-		this.subscribeStates('*');
-		this.log.debug('adapter ' + this.name + 'is ready');
+	onReady() {
+		return new Promise((res) => {
+			this.serialport = new SerialPort('/dev/ttyUSB0')
+				// wait for the open event before claiming we are ready
+				.on('open', () => res())
+				// TODO: add other event handlers
+			;
+			// @ts-ignore
+			if (!this.serialport.isOpen && !this.serialport.opening)
+				this.serialport.open();
+		}).then(() => {
+			// in this template all states changes inside the adapters namespace are subscribed
+			this.subscribeStates('*');
+			this.log.debug('adapter ' + this.name + 'is ready');
+		});
 
 	}
 
@@ -49,10 +55,10 @@ class Noolitef extends utils.Adapter {
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
 	 * @param {() => void} callback
 	 */
-	onUnload(callback) {
+	async onUnload(callback) {
 		try {
-			if(this.serialport.isOpen) {
-				this.serialport.close();				
+			if (this.serialport && this.serialport.isOpen) {
+				await this.serialport.close();
 			}
 			delete this.serialport;
 			this.log.info('cleaned everything up...');
@@ -86,7 +92,7 @@ class Noolitef extends utils.Adapter {
 	 */
 	onStateChange(id, state) {
 
-        //TO DO
+		//TO DO
 		this.log.info('state change from ' + id + 'with ' + JSON.stringify(state));
 		// if (state) {
 		// 	// The state was changed
@@ -112,7 +118,7 @@ class Noolitef extends utils.Adapter {
 				// Send response in callback if required
 				if (obj.callback) this.sendTo(obj.from, obj.command, 'OK', obj.callback);
 			}
-			else if(obj.command == 'Unbind') {
+			else if (obj.command == 'Unbind') {
 				this.log.info('Unbind command');
 				if (obj.callback) this.sendTo(obj.from, obj.command, 'OK', obj.callback);
 
