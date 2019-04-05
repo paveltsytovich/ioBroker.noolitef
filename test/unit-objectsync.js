@@ -26,10 +26,8 @@ tests.unit(path.join(__dirname, '..'), {
 	defineAdditionalTests() {
 	    // @ts-ignore
 	    const { adapter, database } = utils.unit.createMocks();
-		it('work', () => {
-			adapter.setForeignState('noolitef.0',{val:2, ack: true});
-			//adapter.setForeignStateChanged('noolitef.0');
-			//adapter.createState('value1',{val:2, ack: true});
+		it('Sync with iobroker object database should be correct state', () => {
+			
 			
 		});        
 	},
