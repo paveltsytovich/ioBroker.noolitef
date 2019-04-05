@@ -14,6 +14,8 @@ tests.unit(path.join(__dirname, '..'), {
 	},
 	overwriteAdapterConfig(config) {
 		config.devices[0] = {'1':'2'};
+		config.devpath = '/dev/ttyUSB0';
+		return config;
 
 	},
 	defineAdditionalTests() {

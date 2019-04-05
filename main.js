@@ -9,6 +9,7 @@
 const utils = require('@iobroker/adapter-core');
 const MTRF64Driver = require('mtrf64');
 const SerialPort = require('serialport');
+
 // Load your modules here, e.g.:
 // const fs = require("fs");
 
@@ -23,6 +24,7 @@ class Noolitef extends utils.Adapter {
 			name: 'noolitef',
 		});
 		this.serialport = null;
+		this.controller = null
 		this.on('ready', this.onReady);
 		this.on('objectChange', this.onObjectChange);
 		this.on('stateChange', this.onStateChange);
@@ -35,7 +37,7 @@ class Noolitef extends utils.Adapter {
 	 */
 	onReady() {
 		return new Promise((res) => {
-			this.serialport = new SerialPort('/dev/ttyUSB0')
+			this.serialport = new SerialPort(this.config.devpath)
 				// wait for the open event before claiming we are ready
 				.on('open', () => res())
 				// TODO: add other event handlers
