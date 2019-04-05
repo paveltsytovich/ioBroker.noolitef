@@ -1,4 +1,4 @@
-const path = require('path');
+/* const path = require('path');
 const { tests,utils } = require('@iobroker/testing');
 // @ts-ignore
 const FakeSerialPort = require('serialport/test');
@@ -31,3 +31,4 @@ tests.unit(path.join(__dirname, '..'), {
 		console.log(JSON.stringify(adapter));
 	}
 });
+ */
