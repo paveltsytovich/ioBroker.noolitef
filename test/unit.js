@@ -13,7 +13,12 @@ tests.unit(path.join(__dirname, '..'), {
 		'serialport': FakeSerialPort
 	},
 	overwriteAdapterConfig(config) {
-		config.devices[0] = {'1':'2'};
+		config.devices[0] = {'type':5, 'channel':1, protocol: 0, 'name': 'testlamp'};
+		config.devices[1] = {'type':0, 'channel':2, protocol: 0, 'name': 'testRemoteControl'};
+		config.devices[2] = {'type':1, 'channel':3, protocol: 0, 'name': 'testDoor'};
+		config.devices[3] = {'type':2, 'channel':4, protocol: 0, 'name': 'testWater'};
+		config.devices[4] = {'type':3, 'channel':5, protocol: 0, 'name': 'testDimmer'};
+		config.devices[5] = {'type':4, 'channel':6, protocol: 0, 'name': 'testRgb'};
 		config.devpath = '/dev/ttyUSB0';
 		return config;
 
