@@ -1,3 +1,4 @@
+const expect = require('chai').expect;
 const path = require('path');
 const { tests,utils } = require('@iobroker/testing');
 // @ts-ignore
@@ -27,6 +28,27 @@ tests.unit(path.join(__dirname, '..'), {
 	    // @ts-ignore
 		const { adapter, database } = utils.unit.createMocks();
 		const { assertObjectExists } = utils.unit.createAsserts(database, adapter);
+		describe('tests for tests :-)', () => {
+			it('getobject should be correct object', () => {
+				let actual = database.getObject('noolitef.0.testlamp');
+				let expected = {
+					'_id': 'noolitef.0.testlamp', // e.g. "hm-rpc.0.JEQ0205612:1"
+					'type': 'channel',
+					'parent': 'noolitef.0',         // e.g. "hm-rpc.0.JEQ0205612"
+					 'children': [
+						'noolitef.0.testlamp.status',
+						'noolitef.0.testlamp.channel'
+					 ],
+					'common': {
+						'name':  'testlamp',      // mandatory, default _id ??
+						'role':  'light.switch',          // optional   default undefined
+						'desc':  ''                      // optional,  default undefined
+					}
+				 };
+				 expect(actual).deep.equal(expected);
+			});
+
+		});
 		describe('sync test',() => {
 			afterEach(() => {
 				adapter.resetMockHistory();
@@ -74,6 +96,9 @@ tests.unit(path.join(__dirname, '..'), {
 				assertObjectExists('noolitef.0.testRgb.channel');
 			});
 		}); 
+		describe('Change state in iobroker database should be send correct command to port', () => {
+
+		});
 	},
 	defineMockBehavior(adapter) {
 		
