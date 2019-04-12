@@ -24,11 +24,17 @@ tests.unit(path.join(__dirname, '..'), {
 		return config;
 
 	},
+	predefinedObjects: [
+
+	],
+	predefinedStates: [
+
+	],
 	defineAdditionalTests() {
 	    // @ts-ignore
 		const { adapter, database } = utils.unit.createMocks();
 		const { assertObjectExists } = utils.unit.createAsserts(database, adapter);
-		describe('tests for tests :-)', () => {
+		describe('Correct hierarhical', () => {
 			it('getobject should be correct object', () => {
 				let actual = database.getObject('noolitef.0.testlamp');
 				let expected = {
