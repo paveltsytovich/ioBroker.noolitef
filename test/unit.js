@@ -25,35 +25,54 @@ tests.unit(path.join(__dirname, '..'), {
 
 	},
 	predefinedObjects: [
-
+		{
+			'_id': 'noolitef.0.testlamp', // e.g. "hm-rpc.0.JEQ0205612:1"
+			'type': 'channel',
+			// @ts-ignore
+			'parent': 'noolitef.0',         // e.g. "hm-rpc.0.JEQ0205612"
+			 'children': [
+				'noolitef.0.testlamp.status',
+				'noolitef.0.testlamp.channel'
+			 ],
+			'common': {
+				'name':  'testlamp',      // mandatory, default _id ??
+				'role':  'light.switch',          // optional   default undefined
+				'desc':  'fill comment for test purpose'                      // optional,  default undefined
+			}
+		 }
 	],
-	predefinedStates: [
-
-	],
-	defineAdditionalTests() {
-	    // @ts-ignore
+	predefinedStates: {
+		'noolitef.0.testlamp.status' : {'val' :false, 'ack':false},
+		'noolitef.0.testlamp.channel' : {'val' :1, 'ack' : false}
+	},
+	defineAdditionalTests() {	    
+		// @ts-ignore
 		const { adapter, database } = utils.unit.createMocks();
 		const { assertObjectExists } = utils.unit.createAsserts(database, adapter);
 		describe('Correct hierarhical', () => {
 			it('getobject should be correct object', () => {
-				let actual = database.getObject('noolitef.0.testlamp');
-				let expected = {
-					'_id': 'noolitef.0.testlamp', // e.g. "hm-rpc.0.JEQ0205612:1"
+				const actual = database.getObject('noolitef.0.testlamp');
+				const expected = {
+					'_id': 'noolitef.0.testlamp', 
 					'type': 'channel',
-					'parent': 'noolitef.0',         // e.g. "hm-rpc.0.JEQ0205612"
+					'parent': 'noolitef.0',         
 					 'children': [
 						'noolitef.0.testlamp.status',
 						'noolitef.0.testlamp.channel'
 					 ],
 					'common': {
-						'name':  'testlamp',      // mandatory, default _id ??
-						'role':  'light.switch',          // optional   default undefined
-						'desc':  ''                      // optional,  default undefined
+						'name':  'testlamp',      
+						'role':  'light.switch',          
+						'desc':  ''                     
 					}
 				 };
 				 expect(actual).deep.equal(expected);
 			});
-
+			it('getstate should be correct state', () => {
+				const actual = database.getState('noolitef.0.testlamp.channel');
+				const expected = { 'val': 1, ack : false};
+				expect(actual).deep.equal(expected);
+			});
 		});
 		describe('sync test',() => {
 			afterEach(() => {
