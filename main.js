@@ -45,14 +45,39 @@ class Noolitef extends utils.Adapter {
 			// @ts-ignore
 			if (!this.serialport.isOpen && !this.serialport.opening)
 				this.serialport.open();
-		}).then(() => {
-			// in this template all states changes inside the adapters namespace are subscribed
+		}).then(() => {			
+			this._syncObject();
+			this._mqttInit();
 			this.subscribeStates('*');
 			this.log.debug('adapter ' + this.name + 'is ready');
 		});
 
 	}
+		
+	async _syncObject() {
+		let toAdd = [];
+		let toDelete = [];
+		
+		
+		if(this.config.devices) {
+			let objects = this.getForeignObjects(this.namespace +'.*');
+			for(const c in objects) {
+				
+			}
+		}
+	}
+	_changeDb(toAdd,toDelete) {
+		for(const c of toDelete) {
+			this.delObjectAsync(c._id);
+		}
+		for(const c of toAdd) {
+			this._createObject(c);
+		}
 
+	}
+	_mqttInit() {
+
+	}
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
 	 * @param {() => void} callback
