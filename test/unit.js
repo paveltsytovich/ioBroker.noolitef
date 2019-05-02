@@ -1,4 +1,5 @@
 const expect = require('chai').expect;
+const chai = require('chai');
 const path = require('path');
 const { tests,utils } = require('@iobroker/testing');
 // @ts-ignore
@@ -39,6 +40,21 @@ tests.unit(path.join(__dirname, '..'), {
 				'role':  'light.switch',          // optional   default undefined
 				'desc':  'fill comment for test purpose'                      // optional,  default undefined
 			}
+		 },
+		 {
+			'_id': 'noolitef.0.badlamp', // e.g. "hm-rpc.0.JEQ0205612:1"
+			'type': 'channel',
+			// @ts-ignore
+			'parent': 'noolitef.0',         // e.g. "hm-rpc.0.JEQ0205612"
+			 'children': [
+				'noolitef.0.badlamp.status',
+				'noolitef.0.baslamp.channel'
+			 ],
+			'common': {
+				'name':  'badlamp',      // mandatory, default _id ??
+				'role':  'light.switch',          // optional   default undefined
+				'desc':  'fill comment for test purpose'                      // optional,  default undefined
+			}
 		 }
 	],
 	predefinedStates: {
@@ -76,8 +92,8 @@ tests.unit(path.join(__dirname, '..'), {
 		});
 		describe('sync test',() => {
 			afterEach(() => {
-				adapter.resetMockHistory();
-				database.clear();
+				//adapter.resetMockHistory();
+				//database.clear();
 				
 			});
 			it('Device objects is exists in database after sync', () => {
@@ -87,7 +103,12 @@ tests.unit(path.join(__dirname, '..'), {
 				assertObjectExists('noolitef.0.testWater');
 				assertObjectExists('noolitef.0.testDimmer');
 				assertObjectExists('noolitef.0.testRgb');
+				
 			
+			});
+			it('Device object should be correct remove from iobroker database',() => {
+				const result = database.hasObject('noolitef.0.badlamp');
+				chai.assert(result);
 			});
 			it('Lamp object is correct', ()=> {
 				assertObjectExists('noolitef.0.testlamp');

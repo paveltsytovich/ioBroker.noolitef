@@ -62,11 +62,11 @@ class Noolitef extends utils.Adapter {
 		if(this.config.devices) {
 			this.getForeignObjects(this.namespace +'.*','channel',(err,objects) => {
 				if(err) {
-					this.log.error('No exits object in iobroker database')
+					this.log.error('No exits object in iobroker database');
 				}
 
 				for(const c in objects) {
-				   this.log.debug(objects[c].toString());
+				  
 				}
 			});
 			
