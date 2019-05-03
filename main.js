@@ -55,39 +55,62 @@ class Noolitef extends utils.Adapter {
 	}
 		
 	async _syncObject() {
-		const toAdd = [];
 		
 		const toDelete = [];
-		
-		
+				
 		if(this.config.devices) {
 			this.getForeignObjects(this.namespace +'.*','channel',(err,objects) => {
 				if(err) {
 					this.log.error('No exits object in iobroker database');
 				}
-				for(const o of this.config.devices) {
-					toDelete.push(o);
-					for(const c in objects) {
+				// @ts-ignore
+				const toAdd = this.config.devices.map(element => {
+					// @ts-ignore
+					return this.namespace + '.' + element.name;
+				});
+				
+				for(const c in objects) {
+					
+					toDelete.push(objects[c]);
+					// @ts-ignore
+					for(const o of this.config.devices) {
+						// @ts-ignore
 						if((this.namespace + '.'+ o.name)  == objects[c]._id) {
-							toAdd.push(o);
-							toDelete.pop();
+							toAdd.push(objects[c]);
+							// @ts-ignore
+							toDelete.pop(objects[c]);
+							delete toAdd[c];
 							break;
 						}
-					}								  
+						//теперь надо просмотреть оставшиеся в конфиге объекты - их добавляем
+
+					}
+
+				}
+			
+				// @ts-ignore
+				for(const o of this.config.devices) {
+					let found = false;
+					
+					let c;
+					for(c in objects) {
+						// @ts-ignore
+						if((this.namespace + '.'+ o.name)  == objects[c]._id) {
+							found = true;
+						
+							break;
+						}
+					}
+					if(found)
+						toAdd.push(c);	
+					else
+						toDelete.push(c);							  
 				}
 			});
 		
 		}
 	}
-	_changeDb(toAdd,toDelete) {
-		for(const c of toDelete) {
-			this.delObjectAsync(c._id);
-		}
-		for(const c of toAdd) {
-			this._createObject(c);
-		}
-
-	}
+	
 	_mqttInit() {
 
 	}
