@@ -55,8 +55,9 @@ class Noolitef extends utils.Adapter {
 	}
 		
 	async _syncObject() {
-		let toAdd = [];
-		let toDelete = [];
+		const toAdd = [];
+		
+		const toDelete = [];
 		
 		
 		if(this.config.devices) {
@@ -64,12 +65,18 @@ class Noolitef extends utils.Adapter {
 				if(err) {
 					this.log.error('No exits object in iobroker database');
 				}
-
-				for(const c in objects) {
-				  
+				for(const o of this.config.devices) {
+					toDelete.push(o);
+					for(const c in objects) {
+						if((this.namespace + '.'+ o.name)  == objects[c]._id) {
+							toAdd.push(o);
+							toDelete.pop();
+							break;
+						}
+					}								  
 				}
 			});
-			
+		
 		}
 	}
 	_changeDb(toAdd,toDelete) {
