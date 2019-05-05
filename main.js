@@ -1,3 +1,4 @@
+// @ts-nocheck
 'use strict';
 
 /*
@@ -57,57 +58,26 @@ class Noolitef extends utils.Adapter {
 	async _syncObject() {
 		
 		const toDelete = [];
+		const toAdd = [];
 				
 		if(this.config.devices) {
 			this.getForeignObjects(this.namespace +'.*','channel',(err,objects) => {
 				if(err) {
 					this.log.error('No exits object in iobroker database');
 				}
-				// @ts-ignore
-				const toAdd = this.config.devices.map(element => {
-					// @ts-ignore
-					return this.namespace + '.' + element.name;
+			    this.config.devices.forEach(element => {
+					toAdd.push(this.namespace + '.' + element.name)
 				});
-				
-				for(const c in objects) {
-					
-					toDelete.push(objects[c]);
-					// @ts-ignore
-					for(const o of this.config.devices) {
-						// @ts-ignore
-						if((this.namespace + '.'+ o.name)  == objects[c]._id) {
-							toAdd.push(objects[c]);
-							// @ts-ignore
-							toDelete.pop(objects[c]);
-							delete toAdd[c];
+				for(const c in objects) {				
+					toDelete.push(objects[c]._id);
+					for(const o of toAdd) {
+						if(o  == objects[c]._id) {
+				 			toDelete.pop();			
 							break;
-						}
-						//теперь надо просмотреть оставшиеся в конфиге объекты - их добавляем
-
-					}
-
-				}
-			
-				// @ts-ignore
-				for(const o of this.config.devices) {
-					let found = false;
-					
-					let c;
-					for(c in objects) {
-						// @ts-ignore
-						if((this.namespace + '.'+ o.name)  == objects[c]._id) {
-							found = true;
-						
-							break;
-						}
-					}
-					if(found)
-						toAdd.push(c);	
-					else
-						toDelete.push(c);							  
-				}
-			});
-		
+						}						
+					}					
+				}							
+			});		
 		}
 	}
 	
