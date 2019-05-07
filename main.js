@@ -77,10 +77,17 @@ class Noolitef extends utils.Adapter {
 						}						
 					}					
 				}							
-			});		
+			});
+			setImmediate(this._syncDelete.bind(this),toDelete);
+			setImmediate(this._syncAdd.bind(this),toAdd);		
 		}
 	}
-	
+	_syncDelete(objects) {
+		this.log.debug('ok');
+	}
+	_syncAdd(objects) {
+
+	}
 	_mqttInit() {
 
 	}
