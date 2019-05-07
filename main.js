@@ -88,7 +88,9 @@ class Noolitef extends utils.Adapter {
 		}
 	}
 	_syncAdd(objects) {
-
+		for(const c of objects) {
+			
+		}
 	}
 	_mqttInit() {
 
