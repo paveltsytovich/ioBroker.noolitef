@@ -83,7 +83,9 @@ class Noolitef extends utils.Adapter {
 		}
 	}
 	_syncDelete(objects) {
-		this.log.debug('ok');
+    for(const c of objects) {
+			this.deleteChannel(c);
+		}
 	}
 	_syncAdd(objects) {
 
