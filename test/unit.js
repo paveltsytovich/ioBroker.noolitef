@@ -48,7 +48,7 @@ tests.unit(path.join(__dirname, '..'), {
 			'parent': 'noolitef.0',         // e.g. "hm-rpc.0.JEQ0205612"
 			 'children': [
 				'noolitef.0.badlamp.status',
-				'noolitef.0.baslamp.channel'
+				'noolitef.0.badlamp.channel'
 			 ],
 			'common': {
 				'name':  'badlamp',      // mandatory, default _id ??
@@ -59,7 +59,10 @@ tests.unit(path.join(__dirname, '..'), {
 	],
 	predefinedStates: {
 		'noolitef.0.testlamp.status' : {'val' :false, 'ack':false},
-		'noolitef.0.testlamp.channel' : {'val' :1, 'ack' : false}
+		'noolitef.0.testlamp.channel' : {'val' :1, 'ack' : false},
+		'noolitef.0.badlamp.status' : {'val' :false, 'ack':false},
+		'noolitef.0.badlamp.channel' : {'val' :1, 'ack' : false}
+
 	},
 	defineAdditionalTests() {	    
 		// @ts-ignore
@@ -107,8 +110,11 @@ tests.unit(path.join(__dirname, '..'), {
 			
 			});
 			it('Device object should be correct remove from iobroker database',() => {
-				const result = database.hasObject('noolitef.0.badlamp');
-				chai.assert(result);
+				let result = database.hasObject('noolitef.0.badlamp');
+				result |= database.hasObject('noolitef.0.badlamp.status');
+
+				chai.assert(!result);
+
 			});
 			it('Lamp object is correct', ()=> {
 				assertObjectExists('noolitef.0.testlamp');
