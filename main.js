@@ -91,8 +91,17 @@ class Noolitef extends utils.Adapter {
 		}
 	}
 	_syncAdd(objects) {
+		let channel = undefined;
 		for(const c of objects) {
-			
+			switch(c.type) {
+				case 0:
+						 channel = new Helper.RemoteControl(this.namespace,c.name,c.channel);
+						 break;
+				case 1:
+						channel = new Helper.DoorSensor(this.namespace,c.name,c.channel);
+						break;
+				
+			}
 		}
 	}
 	_mqttInit() {
