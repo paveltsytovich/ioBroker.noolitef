@@ -10,6 +10,8 @@
 const utils = require('@iobroker/adapter-core');
 const MTRF64Driver = require('mtrf64');
 const SerialPort = require('serialport');
+const Helper = require('lib/helpers');
+
 
 // Load your modules here, e.g.:
 // const fs = require("fs");
