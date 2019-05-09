@@ -68,7 +68,8 @@ class Noolitef extends utils.Adapter {
 					this.log.error('No exits object in iobroker database');
 				}
 			    this.config.devices.forEach(element => {
-					toAdd.push(this.namespace + '.' + element.name)
+					//toAdd.push(this.namespace + '.' + element.name)
+					toAdd.push(elemet);
 				});
 				for(const c in objects) {				
 					toDelete.push(objects[c]._id);
