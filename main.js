@@ -100,7 +100,22 @@ class Noolitef extends utils.Adapter {
 				case 1:
 						channel = new Helper.DoorSensor(this.namespace,c.name,c.channel);
 						break;
-				
+				case 2:
+					channel = new Helper.AlarmSensor(this.namespace,c.name,c.channel);
+					break;
+				case 3:
+					channel = new Helper.Dimmer(his.namespace,c.name,c.channel);
+					break;
+				case 4:
+					channel = new Helper.RGBRibbon(this.namespace,c.name,c.channel);
+					break;
+				case 5:
+					channel = new Helper.SimpleRelay(this.namespace,c.name,c.channel);
+					break;				
+			}
+			this.setForeignObject(this.namespace + '.' + c.name,channel.getObject());
+			for(const s of channel.getStates()) {
+				this.setForeignObject(this.namespace + '.' + c.name,s);
 			}
 		}
 	}
