@@ -10,7 +10,7 @@
 const utils = require('@iobroker/adapter-core');
 const MTRF64Driver = require('mtrf64');
 const SerialPort = require('serialport');
-const Helper = require('lib/helpers');
+const Helper = require('./lib/helpers');
 
 
 // Load your modules here, e.g.:
@@ -69,7 +69,7 @@ class Noolitef extends utils.Adapter {
 				}
 			    this.config.devices.forEach(element => {
 					//toAdd.push(this.namespace + '.' + element.name)
-					toAdd.push(elemet);
+					toAdd.push(element);
 				});
 				for(const c in objects) {				
 					toDelete.push(objects[c]._id);
@@ -95,25 +95,32 @@ class Noolitef extends utils.Adapter {
 		for(const c of objects) {
 			switch(c.type) {
 				case 0:
-						 channel = new Helper.RemoteControl(this.namespace,c.name,c.channel);
+						 channel = new Helper.RemoteControl(this.namespace,c.name,c.channel,c.desc);
 						 break;
 				case 1:
-						channel = new Helper.DoorSensor(this.namespace,c.name,c.channel);
+						channel = new Helper.DoorSensor(this.namespace,c.name,c.channel,c.desc);
 						break;
 				case 2:
-					channel = new Helper.AlarmSensor(this.namespace,c.name,c.channel);
+					channel = new Helper.WaterSensor(this.namespace,c.name,c.channel,c.desc);
 					break;
 				case 3:
-					channel = new Helper.Dimmer(his.namespace,c.name,c.channel);
+					channel = new Helper.Dimmer(this.namespace,c.name,c.channel,c.desc);
 					break;
 				case 4:
-					channel = new Helper.RGBRibbon(this.namespace,c.name,c.channel);
+					channel = new Helper.RGBRibbon(this.namespace,c.name,c.channel,c.desc);
 					break;
 				case 5:
-					channel = new Helper.SimpleRelay(this.namespace,c.name,c.channel);
+					channel = new Helper.SimpleRelay(this.namespace,c.name,c.channel,c.desc);
 					break;				
+				case 6:
+					channel = new Helper.MotionSensor(this.namespace,c.name,c.channel,c.desc);
+					break;
+				case 7:
+					console.log.warn('Thermo sensor not supported in this version');
+					continue;					
 			}
-			this.setForeignObject(this.namespace + '.' + c.name,channel.getObject());
+			const r = channel.getObject();
+			this.setForeignObject(this.namespace + '.' + c.name,r);
 			for(const s of channel.getStates()) {
 				this.setForeignObject(this.namespace + '.' + c.name,s);
 			}
