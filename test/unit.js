@@ -15,12 +15,12 @@ tests.unit(path.join(__dirname, '..'), {
 		'serialport': FakeSerialPort
 	},
 	overwriteAdapterConfig(config) {
-		config.devices[0] = {'type':5, 'channel':1, protocol: 0, 'name': 'testlamp'};
-		config.devices[1] = {'type':0, 'channel':2, protocol: 0, 'name': 'testRemoteControl'};
-		config.devices[2] = {'type':1, 'channel':3, protocol: 0, 'name': 'testDoor'};
-		config.devices[3] = {'type':2, 'channel':4, protocol: 0, 'name': 'testWater'};
-		config.devices[4] = {'type':3, 'channel':5, protocol: 0, 'name': 'testDimmer'};
-		config.devices[5] = {'type':4, 'channel':6, protocol: 0, 'name': 'testRgb'};
+		config.devices[0] = {'type':5, 'channel':1, protocol: 0, 'name': 'testlamp','desc' : 'Test lamp'};
+		config.devices[1] = {'type':0, 'channel':2, protocol: 0, 'name': 'testRemoteControl','desc': 'Test Remote control'};
+		config.devices[2] = {'type':1, 'channel':3, protocol: 0, 'name': 'testDoor','desc' : 'Test Door sensor'};
+		config.devices[3] = {'type':2, 'channel':4, protocol: 0, 'name': 'testWater','desc':'Test water sensor'};
+		config.devices[4] = {'type':3, 'channel':5, protocol: 0, 'name': 'testDimmer','desc' : 'Test dimmer'};
+		config.devices[5] = {'type':4, 'channel':6, protocol: 0, 'name': 'testRgb','desc' : 'Test RGB Controller'};
 		config.devpath = '/dev/ttyUSB0';
 		return config;
 
