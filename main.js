@@ -58,7 +58,7 @@ class Noolitef extends utils.Adapter {
 
 	}
 		
-	async _syncObject() {
+	  _syncObject() {
 		this.log.info('start sync');
 		const toDelete = [];
 		const toAdd = [];
@@ -81,12 +81,9 @@ class Noolitef extends utils.Adapter {
 						}						
 					}					
 				}							
-				//setImmediate(this._syncDelete.bind(this),toDelete);
-				//setImmediate(this._syncAdd.bind(this),toAdd);	
-				this._syncDelete(toDelete);
-				this._syncAdd(toAdd);
-				this.log.info('sync finished');
-			});
+				setImmediate(this._syncDelete.bind(this),toDelete);
+				setImmediate(this._syncAdd.bind(this),toAdd);
+             		});
 		}
 	}
 	_syncDelete(objects) {
@@ -94,15 +91,23 @@ class Noolitef extends utils.Adapter {
 			this.deleteChannel(c);
 		}
 	}
-	_syncAdd(objects) {
-		let channel = undefined;
-		for(const c of objects) {
-			switch(c.type) {
-				case 0:
-					channel = new Helper.RemoteControl(this.namespace,c.name,c.channel,c.desc);
+        _syncAdd(objects) {
+                let channel = undefined;
+                this.log.info('before add');
+                this.log.info(JSON.stringify(objects));
+                for(const k in objects) {
+                    const c = objects[k];
+                    this.log.info(JSON.stringify(objects[k]));
+                    this.log.info('cycle');
+			switch(parseInt(c.type)) {
+                               case 0:
+                                    this.log.info('RemoteControl before');
+                                    channel = new Helper.RemoteControl(this.namespace,c.name,c.channel,c.desc);
+                                    this.log.info('RemoteControl')
 					break;
 				case 1:
-					channel = new Helper.DoorSensor(this.namespace,c.name,c.channel,c.desc);
+                                    channel = new Helper.DoorSensor(this.namespace,c.name,c.channel,c.desc);
+                                    this.log.info('DoorSensor');
 					break;
 				case 2:
 					channel = new Helper.WaterSensor(this.namespace,c.name,c.channel,c.desc);
@@ -124,7 +129,8 @@ class Noolitef extends utils.Adapter {
 					continue;	
 				default:
 					continue;				
-			}
+                        }
+                        this.log.info('perform create object');
 			const r = channel.getObject();
 			this.log.info('setup for ' + r._id + ' object');
 			this.setForeignObject(r._id,r);
