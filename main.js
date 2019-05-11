@@ -39,7 +39,7 @@ class Noolitef extends utils.Adapter {
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	onReady() {
-		return new Promise((res) => {
+			return new Promise((res) => {
 			this.serialport = new SerialPort(this.config.devpath)
 				// wait for the open event before claiming we are ready
 				.on('open', () => res())
@@ -48,17 +48,18 @@ class Noolitef extends utils.Adapter {
 			// @ts-ignore
 			if (!this.serialport.isOpen && !this.serialport.opening)
 				this.serialport.open();
-		}).then(() => {			
+		}).then(() => {
+				
 			this._syncObject();
 			this._mqttInit();
 			this.subscribeStates('*');
-			this.log.debug('adapter ' + this.name + 'is ready');
+			this.log.info('adapter ' + this.name + ' is ready');
 		});
 
 	}
 		
 	async _syncObject() {
-		
+		this.log.info('start sync');
 		const toDelete = [];
 		const toAdd = [];
 				
@@ -80,13 +81,16 @@ class Noolitef extends utils.Adapter {
 						}						
 					}					
 				}							
+				//setImmediate(this._syncDelete.bind(this),toDelete);
+				//setImmediate(this._syncAdd.bind(this),toAdd);	
+				this._syncDelete(toDelete);
+				this._syncAdd(toAdd);
+				this.log.info('sync finished');
 			});
-			setImmediate(this._syncDelete.bind(this),toDelete);
-			setImmediate(this._syncAdd.bind(this),toAdd);		
 		}
 	}
 	_syncDelete(objects) {
-    for(const c of objects) {
+		for(const c of objects) {
 			this.deleteChannel(c);
 		}
 	}
@@ -95,11 +99,11 @@ class Noolitef extends utils.Adapter {
 		for(const c of objects) {
 			switch(c.type) {
 				case 0:
-						 channel = new Helper.RemoteControl(this.namespace,c.name,c.channel,c.desc);
-						 break;
+					channel = new Helper.RemoteControl(this.namespace,c.name,c.channel,c.desc);
+					break;
 				case 1:
-						channel = new Helper.DoorSensor(this.namespace,c.name,c.channel,c.desc);
-						break;
+					channel = new Helper.DoorSensor(this.namespace,c.name,c.channel,c.desc);
+					break;
 				case 2:
 					channel = new Helper.WaterSensor(this.namespace,c.name,c.channel,c.desc);
 					break;
@@ -117,12 +121,16 @@ class Noolitef extends utils.Adapter {
 					break;
 				case 7:
 					console.log.warn('Thermo sensor not supported in this version');
-					continue;					
+					continue;	
+				default:
+					continue;				
 			}
 			const r = channel.getObject();
-			this.setForeignObject(this.namespace + '.' + c.name,r);
+			this.log.info('setup for ' + r._id + ' object');
+			this.setForeignObject(r._id,r);
 			for(const s of channel.getStates()) {
-				this.setForeignObject(this.namespace + '.' + c.name,s);
+				this.log.info('setup for ' + this.namespace + '.'+ c.name + ' object');
+				this.setForeignObject(r._id,s);
 			}
 		}
 	}

@@ -123,8 +123,8 @@ tests.unit(path.join(__dirname, '..'), {
 			});
 			it('Remote control is correct', () => {
 				assertObjectExists('noolitef.0.testRemoteControl.lowBattery');
-				assertObjectExists('noolitef.0.testRemoteControl.command');
-				assertObjectExists('noolitef.0.testRemoteControl.channel');
+				//assertObjectExists('noolitef.0.testRemoteControl.command');
+				//assertObjectExists('noolitef.0.testRemoteControl.channel');
 			});
 			it('Door sensor is correct',()=> {
 				assertObjectExists('noolitef.0.testDoor.lowBattery');
