@@ -88,7 +88,7 @@ class Noolitef extends utils.Adapter {
 	}
 	_syncDelete(objects) {
 		for(const c of objects) {
-			this.deleteChannel(c);
+			this.deleteChannel(this.namespace + '.' + c);
 		}
 	}
         _syncAdd(objects) {
@@ -135,8 +135,8 @@ class Noolitef extends utils.Adapter {
 			this.log.info('setup for ' + r._id + ' object');
 			this.setForeignObject(r._id,r);
 			for(const s of channel.getStates()) {
-				this.log.info('setup for ' + this.namespace + '.'+ c.name + ' object');
-				this.setForeignObject(r._id,s);
+				this.log.info('setup for ' + s._id + ' object');
+				this.setForeignObject(s._id,s);
 			}
 		}
 	}
