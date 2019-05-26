@@ -1,0 +1,101 @@
+{
+	"common": {
+		"name": "sample",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"zh-cn": "首次出版"
+			}
+		},
+		"title": "Sample Configuration",
+		"titleLang": {
+			"en": "Sample Configuration",
+			"de": "Beispielkonfiguration",
+			"ru": "Пример конфигурации",
+			"pt": "Configuração de Amostra",
+			"nl": "Voorbeeldconfiguratie",
+			"fr": "Exemple de configuration",
+			"it": "Configurazione di esempio",
+			"es": "Configuración de muestra",
+			"pl": "Przykładowa konfiguracja",
+			"zh-cn": "样本配置"
+		},
+		"desc": {
+			"en": "This sample for article about adapter development",
+			"de": "Dieses Beispiel für einen Artikel über die Adapterentwicklung",
+			"ru": "Этот образец для статьи о разработке адаптера",
+			"pt": "Esta amostra para artigo sobre desenvolvimento de adaptadores",
+			"nl": "Dit voorbeeld voor artikel over adapterontwikkeling",
+			"fr": "Cet exemple d'article sur le développement de l'adaptateur",
+			"it": "Questo esempio per l'articolo sullo sviluppo dell'adattatore",
+			"es": "Este ejemplo de artículo sobre desarrollo de adaptadores.",
+			"pl": "Ten przykład dla artykułu o rozwoju adaptera",
+			"zh-cn": "有关适配器开发的文章示例"
+		},
+		"authors": [
+			"ptsytovich <pavel.tsytovich@gmail.com>"
+		],
+		"keywords": [
+			"iobroker",
+			"adapter",
+			"nodejs"
+		],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "main.js",
+		"icon": "sample.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/paveltsytovich/ioBroker.sample/master/admin/sample.png",
+		"readme": "https://github.com/paveltsytovich/ioBroker.sample/blob/master/README.md",
+		"loglevel": "info",
+		"mode": "daemon",
+		"type": "hardware",
+		"compact": true,
+		"materialize": true,
+		"dependencies": [
+			{
+				"admin": ">=3.0.0"
+			},
+			{
+				"js-controller": ">=1.4.2"
+			}
+		]
+	},
+	"native": {
+		"option1": true,
+		"option2": "42"
+	},
+	"objects": [],
+	"instanceObjects": [
+		{
+			"_id": "info",
+			"type": "channel",
+			"common": {
+				"name": "Information"
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.connection",
+			"type": "state",
+			"common": {
+				"role": "indicator.connected",
+				"name": "Device or service connected",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		}
+	]
+}
