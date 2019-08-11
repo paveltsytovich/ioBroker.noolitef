@@ -104,7 +104,7 @@
                 if(id == 0) {
                     let data = JSON.stringify(device);
                     sendTo(null,'Bind',data,(msg) => {
-                       if(msg !== "OK")
+                       if(msg !== true)
                         showError(msg)
                     });
                 }

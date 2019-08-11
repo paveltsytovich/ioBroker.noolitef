@@ -27,7 +27,9 @@ class Noolitef extends utils.Adapter {
 			name: 'noolitef',
 		});
 		this.serialport = null;
-		this.controller = null
+		this.controller = null;
+		this.parser = null;
+		this.instances = [];
 		this.on('ready', this.onReady);
 		this.on('objectChange', this.onObjectChange);
 		this.on('stateChange', this.onStateChange);
@@ -39,7 +41,7 @@ class Noolitef extends utils.Adapter {
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	onReady() {
-			return new Promise((res) => {
+		return new Promise((res) => {
 			this.serialport = new SerialPort(this.config.devpath)
 				// wait for the open event before claiming we are ready
 				.on('open', () => res())
@@ -49,7 +51,8 @@ class Noolitef extends utils.Adapter {
 			if (!this.serialport.isOpen && !this.serialport.opening)
 				this.serialport.open();
 		}).then(() => {
-				
+			this.parser = this.serialport.pipe(new SerialPort.parsers.ByteLength({length: 17}));
+			this.controller = new MTRF64Driver.Controller(this.serialport,this.parser);
 			this._syncObject();
 			this._mqttInit();
 			this.subscribeStates('*');
@@ -57,8 +60,7 @@ class Noolitef extends utils.Adapter {
 		});
 
 	}
-		
-	  _syncObject() {
+	_syncObject() {
 		this.log.info('start sync');
 		const toDelete = [];
 		const toAdd = [];
@@ -69,7 +71,6 @@ class Noolitef extends utils.Adapter {
 					this.log.error('No exits object in iobroker database');
 				}
 			    this.config.devices.forEach(element => {
-					//toAdd.push(this.namespace + '.' + element.name)
 					toAdd.push(element);
 				});
 				for(const c in objects) {				
@@ -91,23 +92,19 @@ class Noolitef extends utils.Adapter {
 			this.deleteChannel(this.namespace + '.' + c);
 		}
 	}
-        _syncAdd(objects) {
-                let channel = undefined;
-                this.log.info('before add');
-                this.log.info(JSON.stringify(objects));
-                for(const k in objects) {
-                    const c = objects[k];
-                    this.log.info(JSON.stringify(objects[k]));
-                    this.log.info('cycle');
+	_syncAdd(objects) {
+		let channel = undefined;
+		for(const k in objects) {
+			const c = objects[k];
 			switch(parseInt(c.type)) {
-                               case 0:
-                                    this.log.info('RemoteControl before');
-                                    channel = new Helper.RemoteControl(this.namespace,c.name,c.channel,c.desc);
-                                    this.log.info('RemoteControl')
+				case 0:
+					this.log.info('RemoteControl before');
+					channel = new Helper.RemoteControl(this.namespace,c.name,c.channel,c.desc);
+					this.log.info('RemoteControl')
 					break;
 				case 1:
-                                    channel = new Helper.DoorSensor(this.namespace,c.name,c.channel,c.desc);
-                                    this.log.info('DoorSensor');
+					channel = new Helper.DoorSensor(this.namespace,c.name,c.channel,c.desc);
+					this.log.info('DoorSensor');
 					break;
 				case 2:
 					channel = new Helper.WaterSensor(this.namespace,c.name,c.channel,c.desc);
@@ -129,13 +126,10 @@ class Noolitef extends utils.Adapter {
 					continue;	
 				default:
 					continue;				
-                        }
-                        this.log.info('perform create object');
+			}
 			const r = channel.getObject();
-			this.log.info('setup for ' + r._id + ' object');
 			this.setForeignObject(r._id,r);
 			for(const s of channel.getStates()) {
-				this.log.info('setup for ' + s._id + ' object');
 				this.setForeignObject(s._id,s);
 			}
 		}
@@ -166,7 +160,7 @@ class Noolitef extends utils.Adapter {
 	 * @param {ioBroker.Object | null | undefined} obj
 	 */
 	onObjectChange(id, obj) {
-
+		this.log.info('object change from ' + id + 'with ' + JSON.stringify(obj));
 		//TO DO
 		// if (obj) {
 		// 	// The object was changed
@@ -204,11 +198,11 @@ class Noolitef extends utils.Adapter {
 		this.log.info(JSON.stringify(obj));
 		if (typeof obj === 'object' && obj.message) {
 			if (obj.command === 'Bind') {
-				// e.g. send email or pushover or whatever
 				this.log.info('Bind command');
-
+				const result = Pairing(obj.message.type,obj.message.protocol,obj.message.channel);
+				
 				// Send response in callback if required
-				if (obj.callback) this.sendTo(obj.from, obj.command, 'OK', obj.callback);
+				if (obj.callback) this.sendTo(obj.from, obj.command, result, obj.callback);
 			}
 			else if (obj.command == 'Unbind') {
 				this.log.info('Unbind command');
