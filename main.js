@@ -100,7 +100,7 @@ class Noolitef extends utils.Adapter {
 				case 0:
 					this.log.info('RemoteControl before');
 					channel = new Helper.RemoteControl(this.namespace,c.name,c.channel,c.desc);
-					this.log.info('RemoteControl')
+					this.log.info('RemoteControl');
 					break;
 				case 1:
 					channel = new Helper.DoorSensor(this.namespace,c.name,c.channel,c.desc);
@@ -136,6 +136,9 @@ class Noolitef extends utils.Adapter {
 	}
 	_mqttInit() {
 
+	}
+	_handleCallback(name, data = null) {
+		
 	}
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
