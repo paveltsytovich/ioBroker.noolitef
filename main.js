@@ -11,6 +11,7 @@ const utils = require('@iobroker/adapter-core');
 const MTRF64Driver = require('mtrf64');
 const SerialPort = require('serialport');
 const Helper = require('./lib/helpers');
+const InputDevices = require('./lib/InputDevices');
 
 
 // Load your modules here, e.g.:
@@ -94,6 +95,7 @@ class Noolitef extends utils.Adapter {
 	}
 	_syncAdd(objects) {
 		let channel = undefined;
+		i = 0;
 		for(const k in objects) {
 			const c = objects[k];
 			switch(parseInt(c.type)) {
@@ -105,6 +107,10 @@ class Noolitef extends utils.Adapter {
 				case 1:
 					channel = new Helper.DoorSensor(this.namespace,c.name,c.channel,c.desc);
 					this.log.info('DoorSensor');
+					this.instances[i] = new InputDevices.DoorSensorDevice(this.controller,c.channel,0,
+						this._handleInputEvent,c.name);
+					this.controller.register(this.instances[i]);
+					i++;
 					break;
 				case 2:
 					channel = new Helper.WaterSensor(this.namespace,c.name,c.channel,c.desc);
@@ -137,8 +143,12 @@ class Noolitef extends utils.Adapter {
 	_mqttInit() {
 
 	}
-	_handleCallback(name, data = null) {
-		
+	_handleInputEvent(name, data = null) {
+		if(data != null)
+			this.setState(this.namespace + '.' + name, {val: true, expire: 3, ack: true});	
+		else 
+		this.setState(this.namespace + '.' + name, {val: data, expire: 30, ack: true});	
+	}
 	}
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
