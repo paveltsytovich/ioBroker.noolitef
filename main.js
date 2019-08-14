@@ -95,7 +95,7 @@ class Noolitef extends utils.Adapter {
 	}
 	_syncAdd(objects) {
 		let channel = undefined;
-		i = 0;
+		let i = 0;
 		for(const k in objects) {
 			const c = objects[k];
 			switch(parseInt(c.type)) {
@@ -144,11 +144,11 @@ class Noolitef extends utils.Adapter {
 
 	}
 	_handleInputEvent(name, data = null) {
+		this.log.info('handle input events for' + this.namespace + '. ' + name + ' with data' + data);
 		if(data != null)
 			this.setState(this.namespace + '.' + name, {val: true, expire: 3, ack: true});	
 		else 
-		this.setState(this.namespace + '.' + name, {val: data, expire: 30, ack: true});	
-	}
+			this.setState(this.namespace + '.' + name, {val: data, expire: 30, ack: true});	
 	}
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
