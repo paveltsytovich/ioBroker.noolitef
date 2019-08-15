@@ -31,6 +31,7 @@ class Noolitef extends utils.Adapter {
 		this.controller = null;
 		this.parser = null;
 		this.instances = [];
+		this.lastcall = new Date().getTime();
 		this.on('ready', this.onReady);
 		this.on('objectChange', this.onObjectChange);
 		this.on('stateChange', this.onStateChange);
@@ -107,7 +108,7 @@ class Noolitef extends utils.Adapter {
 				case 1:
 					channel = new Helper.DoorSensor(this.namespace,c.name,c.channel,c.desc);
 					this.log.info('DoorSensor');
-					this.instances[i] = new InputDevices.DoorSensorDevice(this.controller,c.channel,0,
+					this.instances[i] = new InputDevices.DoorSensorDevice(this,this.controller,c.channel,0,
 						this._handleInputEvent,c.name);
 					this.controller.register(this.instances[i]);
 					i++;
@@ -143,12 +144,17 @@ class Noolitef extends utils.Adapter {
 	_mqttInit() {
 
 	}
-	_handleInputEvent(name, data = null) {
-		this.log.info('handle input events for' + this.namespace + '. ' + name + ' with data' + data);
-		if(data != null)
-			this.setState(this.namespace + '.' + name, {val: true, expire: 3, ack: true});	
+	_handleInputEvent(name, property,data = null) {
+		const d = new Date().getTime();
+		if(d - this.lastcall < 1000) 
+			return;
+		this.lastcall = d;
+		const stateName = this.namespace + '.' + name.trim() + '.' + property;
+		this.log.info('handle input events for ' + stateName + ' with data ' + data);
+		if(data === null)
+			this.setState(stateName, {val: true, expire: 3, ack: true});	
 		else 
-			this.setState(this.namespace + '.' + name, {val: data, expire: 30, ack: true});	
+			this.setState(stateName, {val: data, expire: 30, ack: true});	
 	}
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
