@@ -209,16 +209,12 @@ class Noolitef extends utils.Adapter {
 	 * @param {ioBroker.State | null | undefined} state
 	 */
 	onStateChange(id, state) {
-
-		//TO DO
 		this.log.info('state change from ' + id + 'with ' + JSON.stringify(state));
-		// if (state) {
-		// 	// The state was changed
-		// 	this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
-		// } else {
-		// 	// The state was deleted
-		// 	this.log.info(`state ${id} deleted`);
-		// }
+		if(state && !state.ack) 
+			return;
+		const channelName = id.substring(0,id.lastIndexOf('.')-1);
+		const channel = this.getObject(channelName);
+		
 	}
 
 	/**
