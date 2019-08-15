@@ -152,9 +152,9 @@ class Noolitef extends utils.Adapter {
 		const stateName = this.namespace + '.' + name.trim() + '.' + property;
 		this.log.info('handle input events for ' + stateName + ' with data ' + data);
 		if(data === null)
-			this.setState(stateName, {val: true, expire: 3, ack: true});	
+			this.setState(stateName, {val: true, ack: true});	
 		else 
-			this.setState(stateName, {val: data, expire: 30, ack: true});	
+			this.setState(stateName, {val: data, ack: true});	
 	}
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
