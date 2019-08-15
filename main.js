@@ -101,9 +101,12 @@ class Noolitef extends utils.Adapter {
 			const c = objects[k];
 			switch(parseInt(c.type)) {
 				case 0:
-					this.log.info('RemoteControl before');
 					channel = new Helper.RemoteControl(this.namespace,c.name,c.channel,c.desc);
 					this.log.info('RemoteControl');
+					this.instances[i] = new InputDevices.InputDevice(this,this.controller,c.channel,0,
+						this._handleInputEvent,c.name);
+					this.controller.register(this.instances[i]);
+					i++;
 					break;
 				case 1:
 					channel = new Helper.DoorSensor(this.namespace,c.name,c.channel,c.desc);
@@ -115,6 +118,11 @@ class Noolitef extends utils.Adapter {
 					break;
 				case 2:
 					channel = new Helper.WaterSensor(this.namespace,c.name,c.channel,c.desc);
+					this.log.info('WaterSensor');
+					this.instances[i] = new InputDevices.WaterSensorDevice(this,this.controller,c.channel,0,
+						this._handleInputEvent,c.name);
+					this.controller.register(this.instances[i]);
+					i++;
 					break;
 				case 3:
 					channel = new Helper.Dimmer(this.namespace,c.name,c.channel,c.desc);
@@ -127,9 +135,14 @@ class Noolitef extends utils.Adapter {
 					break;				
 				case 6:
 					channel = new Helper.MotionSensor(this.namespace,c.name,c.channel,c.desc);
+					this.log.info('MotionSensor');
+					this.instances[i] = new InputDevices.MotionSensorDevice(this,this.controller,c.channel,0,
+						this._handleInputEvent,c.name);
+					this.controller.register(this.instances[i]);
+					i++;
 					break;
 				case 7:
-					console.log.warn('Thermo sensor not supported in this version');
+					this.log.warn('Thermo sensor not supported in this version');
 					continue;	
 				default:
 					continue;				
