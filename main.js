@@ -13,6 +13,7 @@ const SerialPort = require('serialport');
 const Helper = require('./lib/helpers');
 const InputDevices = require('./lib/InputDevices');
 const Binding = require('./lib/bindingDevice');
+const OutputDevices = require('./lib/outputDevices');
 
 
 // Load your modules here, e.g.:
