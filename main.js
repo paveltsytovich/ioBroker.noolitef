@@ -227,19 +227,23 @@ class Noolitef extends utils.Adapter {
 	onMessage(obj) {
 		this.log.info(JSON.stringify(obj));
 		if (typeof obj === 'object' && obj.message) {
+			const msg = JSON.parse(obj.message);
 			if (obj.command === 'Bind') {
 				this.log.info('Bind command');
-				const result = Binding.Pairing(obj.message.type,obj.message.protocol,
-					obj.message.channel,obj.message.protocol);
+				
+				const result = Binding.Pairing(this.controller, parseInt(msg.type), 
+					parseInt(msg.channel),parseInt(msg.protocol));
 				
 				// Send response in callback if required
-				if (obj.callback) this.sendTo(obj.from, obj.command, result, obj.callback);
+				if (obj.callback) 
+					this.sendTo(obj.from, obj.command, result, obj.callback);
 			}
 			else if (obj.command == 'Unbind') {
 				this.log.info('Unbind command');
-				const result = Binding.Unpairing(this.controller,obj.message.type,obj.message.protocol,
-					obj.message.channel,obj.message.protocol);
-				if (obj.callback) this.sendTo(this.controller,obj.from, obj.command, result, obj.callback);
+				const result = Binding.Unpairing(this.controller,parseInt(msg.type),
+				 parseInt(msg.channel),parseInt(msg.protocol));
+				if (obj.callback) 
+					this.sendTo(this.controller,obj.from, obj.command, result, obj.callback);
 			}
 		}
 	}
