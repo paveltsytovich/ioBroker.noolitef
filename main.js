@@ -208,12 +208,13 @@ class Noolitef extends utils.Adapter {
 	 * @param {string} id
 	 * @param {ioBroker.State | null | undefined} state
 	 */
-	onStateChange(id, state) {
+	async onStateChange(id, state) {
 		this.log.info('state change from ' + id + 'with ' + JSON.stringify(state));
 		if(state && !state.ack) 
 			return;
 		const channelName = id.substring(0,id.lastIndexOf('.')-1);
-		const channel = this.getObject(channelName);
+		const channel = await (this.getObjectAsync(channelName));
+		const address = channel.native.address;
 		
 	}
 
