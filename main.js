@@ -12,6 +12,7 @@ const MTRF64Driver = require('mtrf64');
 const SerialPort = require('serialport');
 const Helper = require('./lib/helpers');
 const InputDevices = require('./lib/InputDevices');
+const Binding = require('./lib/bindingDevice');
 
 
 // Load your modules here, e.g.:
@@ -215,7 +216,7 @@ class Noolitef extends utils.Adapter {
 		const channelName = id.substring(0,id.lastIndexOf('.')-1);
 		const channel = await (this.getObjectAsync(channelName));
 		const address = channel.native.address;
-		
+
 	}
 
 	/**
@@ -228,15 +229,17 @@ class Noolitef extends utils.Adapter {
 		if (typeof obj === 'object' && obj.message) {
 			if (obj.command === 'Bind') {
 				this.log.info('Bind command');
-				const result = Pairing(obj.message.type,obj.message.protocol,obj.message.channel);
+				const result = Binding.Pairing(obj.message.type,obj.message.protocol,
+					obj.message.channel,obj.message.protocol);
 				
 				// Send response in callback if required
 				if (obj.callback) this.sendTo(obj.from, obj.command, result, obj.callback);
 			}
 			else if (obj.command == 'Unbind') {
 				this.log.info('Unbind command');
-				if (obj.callback) this.sendTo(obj.from, obj.command, 'OK', obj.callback);
-
+				const result = Binding.Unpairing(this.controller,obj.message.type,obj.message.protocol,
+					obj.message.channel,obj.message.protocol);
+				if (obj.callback) this.sendTo(this.controller,obj.from, obj.command, result, obj.callback);
 			}
 		}
 	}
