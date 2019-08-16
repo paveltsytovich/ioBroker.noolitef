@@ -91,7 +91,7 @@
         $('a[data-command="pair"]').on('click',(e) => { 
             pairing(devices[$(e.currentTarget).data('index')],true);
         });
-        $('a[data-5command="unpair"]').on('click',(e) => { 
+        $('a[data-command="unpair"]').on('click',(e) => { 
             pairing(devices[$(e.currentTarget).data('index')],false);
         });
         });
@@ -104,7 +104,7 @@
                 if(id == 0) {
                     let data = JSON.stringify(device);
                     sendTo(null,'Bind',data,(msg) => {
-                       if(msg !== true)
+                       if(!msg)
                         showError(msg)
                     });
                 }
@@ -116,7 +116,7 @@
                 if(id == 0) {
                     let data = JSON.stringify(device);
                     sendTo(null,'Unbind',data,(msg) => {
-                        if(msg !== "OK")
+                        if(!msg)
                         showError(msg)
                     });
                 }
