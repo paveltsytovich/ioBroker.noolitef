@@ -218,7 +218,7 @@ class Noolitef extends utils.Adapter {
 		const address = channel.native.address;
 
 	}
-
+ 
 	/**
 	 * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
 	 * Using this method requires "common.message" property to be set to true in io-package.json
@@ -243,7 +243,7 @@ class Noolitef extends utils.Adapter {
 				const result = Binding.Unpairing(this.controller,parseInt(msg.type),
 				 parseInt(msg.channel),parseInt(msg.protocol));
 				if (obj.callback) 
-					this.sendTo(this.controller,obj.from, obj.command, result, obj.callback);
+					this.sendTo(obj.from, obj.command, result, obj.callback);
 			}
 		}
 	}
