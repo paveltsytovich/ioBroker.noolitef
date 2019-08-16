@@ -29,11 +29,12 @@ class Noolitef extends utils.Adapter {
 			...options,
 			name: 'noolitef',
 		});
-		this.serialport = null;
-		this.controller = null;
-		this.parser = null;
-		this.instances = [];
-		this.lastcall = new Date().getTime();
+		this._serialport = null;
+		this._controller = null;
+		this._parser = null;
+		this._instances = [];
+		this._lastcall = new Date().getTime();
+		this._outputDevices = null;
 		this.on('ready', this.onReady);
 		this.on('objectChange', this.onObjectChange);
 		this.on('stateChange', this.onStateChange);
@@ -46,17 +47,18 @@ class Noolitef extends utils.Adapter {
 	 */
 	onReady() {
 		return new Promise((res) => {
-			this.serialport = new SerialPort(this.config.devpath)
+			this._serialport = new SerialPort(this.config.devpath)
 				// wait for the open event before claiming we are ready
 				.on('open', () => res())
 				// TODO: add other event handlers
 			;
 			// @ts-ignore
-			if (!this.serialport.isOpen && !this.serialport.opening)
-				this.serialport.open();
+			if (!this._serialport.isOpen && !this._serialport.opening)
+				this._serialport.open();
 		}).then(() => {
-			this.parser = this.serialport.pipe(new SerialPort.parsers.ByteLength({length: 17}));
-			this.controller = new MTRF64Driver.Controller(this.serialport,this.parser);
+			this._parser = this._serialport.pipe(new SerialPort.parsers.ByteLength({length: 17}));
+			this._controller = new MTRF64Driver.Controller(this._serialport,this.parser);
+			this._outputDevices = new OutputDevices.OutputDevicesRegistry(this,this._controller);
 			this._syncObject();
 			this._mqttInit();
 			this.subscribeStates('*');
@@ -105,42 +107,45 @@ class Noolitef extends utils.Adapter {
 				case 0:
 					channel = new Helper.RemoteControl(this.namespace,c.name,c.channel,c.desc);
 					this.log.info('RemoteControl');
-					this.instances[i] = new InputDevices.InputDevice(this,this.controller,c.channel,0,
+					this._instances[i] = new InputDevices.InputDevice(this,this._controller,c.channel,0,
 						this._handleInputEvent,c.name);
-					this.controller.register(this.instances[i]);
+					this._controller.register(this._instances[i]);
 					i++;
 					break;
 				case 1:
 					channel = new Helper.DoorSensor(this.namespace,c.name,c.channel,c.desc);
 					this.log.info('DoorSensor');
-					this.instances[i] = new InputDevices.DoorSensorDevice(this,this.controller,c.channel,0,
+					this._instances[i] = new InputDevices.DoorSensorDevice(this,this._controller,c.channel,0,
 						this._handleInputEvent,c.name);
-					this.controller.register(this.instances[i]);
+					this._controller.register(this._instances[i]);
 					i++;
 					break;
 				case 2:
 					channel = new Helper.WaterSensor(this.namespace,c.name,c.channel,c.desc);
 					this.log.info('WaterSensor');
-					this.instances[i] = new InputDevices.WaterSensorDevice(this,this.controller,c.channel,0,
+					this._instances[i] = new InputDevices.WaterSensorDevice(this,this._controller,c.channel,0,
 						this._handleInputEvent,c.name);
-					this.controller.register(this.instances[i]);
+					this._controller.register(this._instances[i]);
 					i++;
 					break;
 				case 3:
 					channel = new Helper.Dimmer(this.namespace,c.name,c.channel,c.desc);
+					this._outputDevices.createDevice(parseInt(c.channel),parseInt(c.protocol));
 					break;
 				case 4:
 					channel = new Helper.RGBRibbon(this.namespace,c.name,c.channel,c.desc);
+					this._outputDevices.createDevice(parseInt(c.channel),parseInt(c.protocol));
 					break;
 				case 5:
 					channel = new Helper.SimpleRelay(this.namespace,c.name,c.channel,c.desc);
+					this._outputDevices.createDevice(parseInt(c.channel),parseInt(c.protocol));
 					break;				
 				case 6:
 					channel = new Helper.MotionSensor(this.namespace,c.name,c.channel,c.desc);
 					this.log.info('MotionSensor');
-					this.instances[i] = new InputDevices.MotionSensorDevice(this,this.controller,c.channel,0,
+					this._instances[i] = new InputDevices.MotionSensorDevice(this,this._controller,c.channel,0,
 						this._handleInputEvent,c.name);
-					this.controller.register(this.instances[i]);
+					this._controller.register(this._instances[i]);
 					i++;
 					break;
 				case 7:
@@ -161,9 +166,9 @@ class Noolitef extends utils.Adapter {
 	}
 	_handleInputEvent(name, property,data = null) {
 		const d = new Date().getTime();
-		if(d - this.lastcall < 1000) 
+		if(d - this._lastcall < 1000) 
 			return;
-		this.lastcall = d;
+		this._lastcall = d;
 		const stateName = this.namespace + '.' + name.trim() + '.' + property;
 		this.log.info('handle input events for ' + stateName + ' with data ' + data);
 		if(data === null)
@@ -177,10 +182,10 @@ class Noolitef extends utils.Adapter {
 	 */
 	async onUnload(callback) {
 		try {
-			if (this.serialport && this.serialport.isOpen) {
-				await this.serialport.close();
+			if (this._serialport && this._serialport.isOpen) {
+				await this._serialport.close();
 			}
-			delete this.serialport;
+			delete this._serialport;
 			this.log.info('cleaned everything up...');
 			callback();
 		} catch (e) {
@@ -214,10 +219,11 @@ class Noolitef extends utils.Adapter {
 		this.log.info('state change from ' + id + 'with ' + JSON.stringify(state));
 		if(state && !state.ack) 
 			return;
-		const channelName = id.substring(0,id.lastIndexOf('.')-1);
-		const channel = await (this.getObjectAsync(channelName));
-		const address = channel.native.address;
-
+		const deviceId = id.substring(0,id.lastIndexOf('.')-1);
+		const stateId = id.substring(id.lastIndexOf('.')+1);
+		const device = await (this.getObjectAsync(deviceId));
+		const channel = device.native.address;
+		this._outputDevices.processCommand(channel,stateId,state.val);
 	}
  
 	/**
@@ -232,7 +238,7 @@ class Noolitef extends utils.Adapter {
 			if (obj.command === 'Bind') {
 				this.log.info('Bind command');
 				
-				const result = Binding.Pairing(this.controller, parseInt(msg.type), 
+				const result = Binding.Pairing(this._controller, parseInt(msg.type), 
 					parseInt(msg.channel),parseInt(msg.protocol));
 				
 				// Send response in callback if required
@@ -241,7 +247,7 @@ class Noolitef extends utils.Adapter {
 			}
 			else if (obj.command == 'Unbind') {
 				this.log.info('Unbind command');
-				const result = Binding.Unpairing(this.controller,parseInt(msg.type),
+				const result = Binding.Unpairing(this._controller,parseInt(msg.type),
 				 parseInt(msg.channel),parseInt(msg.protocol));
 				if (obj.callback) 
 					this.sendTo(obj.from, obj.command, result, obj.callback);
