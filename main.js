@@ -31,7 +31,7 @@ class Noolitef extends utils.Adapter {
 		});
 		this.serialport = null;
 		this.controller = null;
-		this._parser = null;
+		this.parser = null;
 		this.instances = [];
 		this.lastcall = new Date().getTime();
 		this.outputDevices = null;
@@ -56,7 +56,7 @@ class Noolitef extends utils.Adapter {
 			if (!this.serialport.isOpen && !this.serialport.opening)
 				this.serialport.open();
 		}).then(() => {
-			this._parser = this.serialport.pipe(new SerialPort.parsers.ByteLength({length: 17}));
+			this.parser = this.serialport.pipe(new SerialPort.parsers.ByteLength({length: 17}));
 			this.controller = new MTRF64Driver.Controller(this.serialport,this.parser);
 			this.outputDevices = new OutputDevices.OutputDevicesRegistry(this,this.controller);
 			this._syncObject();
@@ -217,9 +217,9 @@ class Noolitef extends utils.Adapter {
 	 */
 	async onStateChange(id, state) {
 		this.log.info('state change from ' + id + 'with ' + JSON.stringify(state));
-		if(state && !state.ack) 
+		if(!state || state.ack) 
 			return;
-		const deviceId = id.substring(0,id.lastIndexOf('.')-1);
+		const deviceId = id.substring(0,id.lastIndexOf('.'));
 		const stateId = id.substring(id.lastIndexOf('.')+1);
 		const device = await (this.getObjectAsync(deviceId));
 		const channel = device.native.address;
