@@ -30,5 +30,8 @@ var systemDictionary = {
 	"YesUnBind" : {"en" : "Yes, please unbind this device", "ru" : "Да, нужно отвязать устройство" },
 	"NoUnbind" : {"en" : "No, I do mistake", "ru" : "Нет, я ошибся"},
 	"YesBind" : {"en" : "Yes, please bind this device with MTRF64 Adapter", "ru" : "Да, привязать устройство к адаптеру MTRF64" },
-	"Nobind" : {"en" : "No, I do mistake", "ru" : "Нет, я ошибся"}
+	"Nobind" : {"en" : "No, I do mistake", "ru" : "Нет, я ошибся"},
+	"Motion Sensor" : {"en" : "Motion Sensor", "ru": "Датчик движения"},
+	"Thermo Sensor" : { "en" : "Thermo Sensor", "ru" : "Датчик температуры"},
+	"Description" : { "en" : "Description", "ru"  : "Описание"}
 };

@@ -104,7 +104,7 @@
                 if(id == 0) {
                     let data = JSON.stringify(device);
                     sendTo(null,'Bind',data,(msg) => {
-                       if(msg !== "OK")
+                       if(!msg)
                         showError(msg)
                     });
                 }
@@ -116,7 +116,7 @@
                 if(id == 0) {
                     let data = JSON.stringify(device);
                     sendTo(null,'Unbind',data,(msg) => {
-                        if(msg !== "OK")
+                        if(!msg)
                         showError(msg)
                     });
                 }
@@ -156,10 +156,11 @@
                                 <thead>
                                 <tr>
                                     <th data-name="_index"   style="width: 20px" class="translate"></th>
-                                    <th data-name="type" data-options="0/Remote Control;1/Door Sensor;2/Water Sensor;3/Dimmer;4/RGB;5/Switch" data-default="0" style="width: 200px" data-type="select" class="translate">Type</th>
+                                    <th data-name="type" data-options="0/Remote Control;1/Door Sensor;2/Water Sensor;3/Dimmer;4/RGB;5/Switch;6/Motion Sensor;7/Thermo Sensor" data-default="0" style="width: 200px" data-type="select" class="translate">Type</th>
                                     <th data-name="channel" style="width: 100px" data-type="number" class="translate">Channel</th>
                                     <th data-name="protocol" style="width: 100px;" data-type="select" data-options="0/NooliteF;1/Noolite" data-default="0" class="translate">Protocol</th>
                                     <th data-name="name" style="width: 40%" class="translate">Name</th>
+                                    <th data-name="desc" style="width: 40%" class="translate">Description</th>
                                     <th data-buttons="pair unpair delete" style="width: 80px">Link</th>
                                 </tr>
                                 </thead>
