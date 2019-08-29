@@ -58,7 +58,7 @@ class Noolitef extends utils.Adapter {
 		}).then(() => {
 			this.parser = this.serialport.pipe(new SerialPort.parsers.ByteLength({length: 17}));
 			this.controller = new MTRF64Driver.Controller(this.serialport,this.parser);
-			this.outputDevices = new OutputDevices.OutputDevicesRegistry(this,this.controller);
+			this.outputDevices = new OutputDevices.OutputDevicesController(this,this.controller);
 			this._syncObject();
 			this._mqttInit();
 			this.subscribeStates('*');
