@@ -164,6 +164,10 @@ class Noolitef extends utils.Adapter {
 	_mqttInit() {
 
 	}
+	_handleOutputEvent(name,property,data = null) {
+		const stateName = this.namespace + '.' + name.trim() + '.' + property;
+		this.setState(stateName,{val: data, ack : true});
+	}
 	_handleInputEvent(name, property,data = null) {
 		const d = new Date().getTime();
 		if(d - this.lastcall < 1000) 
