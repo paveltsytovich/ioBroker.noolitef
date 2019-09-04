@@ -130,11 +130,11 @@ class Noolitef extends utils.Adapter {
 					break;
 				case 3:
 					channel = new Helper.Dimmer(this.namespace,c.name,c.channel,c.desc);
-					this.outputDevices.createDevice(parseInt(c.channel),parseInt(c.protocol));
+					this.outputDevices.createDevice(parseInt(c.channel),parseInt(c.protocol),c.name);
 					break;
 				case 4:
 					channel = new Helper.RGBRibbon(this.namespace,c.name,c.channel,c.desc);
-					this.outputDevices.createDevice(parseInt(c.channel),parseInt(c.protocol));
+					this.outputDevices.createDevice(parseInt(c.channel),parseInt(c.protocol),c.name);
 					break;
 				case 5:
 					channel = new Helper.SimpleRelay(this.namespace,c.name,c.channel,c.desc);
@@ -162,12 +162,13 @@ class Noolitef extends utils.Adapter {
 		}
 	}
 	_mqttInit() {
-
+		//TO DO for future
 	}
-	_handleOutputEvent(name,property,data = null) {
+	_handleOutputEvent(name,property,data) {
 		const stateName = this.namespace + '.' + name.trim() + '.' + property;
 		this.setState(stateName,{val: data, ack : true});
 	}
+
 	_handleInputEvent(name, property,data = null) {
 		const d = new Date().getTime();
 		if(d - this.lastcall < 1000) 
