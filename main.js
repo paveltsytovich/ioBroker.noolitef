@@ -166,8 +166,9 @@ class Noolitef extends utils.Adapter {
 	_mqttInit() {
 		//TO DO for future
 	}
-	_handleOutputEvent(name,property,data) {
-		const stateName = this.namespace + '.' + name.trim() + property;
+	_handleOutputEvent(name, data) {
+		const stateName = this.namespace + '.' + name.trim();
+		this.log.info('handle output event for ' + stateName + 'with data' + data);
 		this.setState(stateName,{val: data, ack: true});
 	}
 
