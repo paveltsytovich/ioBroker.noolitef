@@ -165,8 +165,8 @@ class Noolitef extends utils.Adapter {
 		//TO DO for future
 	}
 	_handleOutputEvent(name,property,data) {
-		const stateName = this.namespace + '.' + name.trim() + '.' + property;
-		this.setState(stateName,{val: data, ack : true});
+		const stateName = this.namespace + '.' + name.trim() + property;
+		this.setState(stateName,{val: data, ack: true});
 	}
 
 	_handleInputEvent(name, property,data = null) {
