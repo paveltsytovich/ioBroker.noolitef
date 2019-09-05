@@ -130,11 +130,13 @@ class Noolitef extends utils.Adapter {
 					break;
 				case 3:
 					channel = new Helper.Dimmer(this.namespace,c.name,c.channel,c.desc);
-					this.outputDevices.createDevice(parseInt(c.channel),parseInt(c.protocol),c.name);
+					this.outputDevices.createDevice(parseInt(c.channel),parseInt(c.protocol),c.name,
+						this._handleOutputEvent);
 					break;
 				case 4:
 					channel = new Helper.RGBRibbon(this.namespace,c.name,c.channel,c.desc);
-					this.outputDevices.createDevice(parseInt(c.channel),parseInt(c.protocol),c.name);
+					this.outputDevices.createDevice(parseInt(c.channel),parseInt(c.protocol),c.name,
+						this._handleOutputEvent);
 					break;
 				case 5:
 					channel = new Helper.SimpleRelay(this.namespace,c.name,c.channel,c.desc);
