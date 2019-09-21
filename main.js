@@ -32,7 +32,6 @@ class Noolitef extends utils.Adapter {
 		this.serialport = null;
 		this.controller = null;
 		this.parser = null;
-		this.instances = [];
 		this.lastcall = new Date().getTime();
 		this.outputDevices = null;
 		this.on('ready', this.onReady);
