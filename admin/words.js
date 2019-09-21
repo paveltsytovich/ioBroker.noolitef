@@ -11,7 +11,7 @@ const systemDictionary = {
 	'Remote Control' : { 'en': 'Remote control device', 'ru': 'Пульт Noolite'},
 	'Door Sensor' : { 'en' : 'Door Sensor', 'ru': 'Датчик открытия двери'},
 	'Water Sensor': { 'en': 'Water Sensor', 'ru': 'Датчик протечки'},
-	'On/Off Switcher' : {'en' : 'On-Off switcher', 'ru': 'Совмещенная кнопка On/Off'},
+	'On Off Switcher' : {'en' : 'On Off switcher', 'ru': 'Совмещенная кнопка On Off'},
 	'On and Off keypad' : {'en' : 'On and Off keypad','ru' : 'Отдельные клавиши On и Off'},
 	'Scenario button' : {'en' : 'Scenario button', 'ru': 'Сценарная кнопка'},
 	'RGB remote control' : {'en' : 'RGB Remote control', 'ru': 'Пульт RGB'},
