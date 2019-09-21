@@ -104,55 +104,69 @@ class Noolitef extends utils.Adapter {
 		for(const k in objects) {
 			const c = objects[k];
 			switch(parseInt(c.type)) {
-				case 0:
-					channel = new Helper.RemoteControl(this.namespace,c.name,c.channel,c.desc);
-					this.log.info('RemoteControl');
-					this.instances[i] = new InputDevices.InputDevice(this,this.controller,c.channel,0,
+				case 0: //On-Off Switcher
+					channel = new Helper.OnOffCompactControl(this.namespace,c.name,c.channel,c.desc);
+					new InputDevices.InputDevice(this,this.controller,c.channel,0,
 						this._handleInputEvent,c.name);
-					this.controller.register(this.instances[i]);
-					i++;
 					break;
-				case 1:
+
+				case 1: //On and Off keypad
+					channel = new Helper.OnOffSeparatellyControl(this.namespace,c.name,c.channel,c.desc);
+					new InputDevices.InputDevice(this,this.controller,c.channel,0,
+						this._handleInputEvent,c.name);					
+					break;
+
+				case 2://Scenario button
+					channel = new Helper.ScenarioControl(this.namespace,c.name,c.channel,c.desc);
+					new InputDevices.InputDevice(this,this.controller,c.channel,0,
+						this._handleInputEvent,c.name);
+					break;
+
+				case 3://RGB remote control
+					channel = new Helper.RGBControl(this.namespace,c.name,c.channel,c.desc);
+					new InputDevices.InputDevice(this,this.controller,c.channel,0,
+						this._handleInputEvent,c.name);
+					break;
+
+				case 4://Door Sensor
 					channel = new Helper.DoorSensor(this.namespace,c.name,c.channel,c.desc);
-					this.log.info('DoorSensor');
-					this.instances[i] = new InputDevices.DoorSensorDevice(this,this.controller,c.channel,0,
+					new InputDevices.DoorSensorDevice(this,this.controller,c.channel,0,
 						this._handleInputEvent,c.name);
-					this.controller.register(this.instances[i]);
-					i++;
 					break;
-				case 2:
+
+				case 5://Water Sensor
 					channel = new Helper.WaterSensor(this.namespace,c.name,c.channel,c.desc);
-					this.log.info('WaterSensor');
-					this.instances[i] = new InputDevices.WaterSensorDevice(this,this.controller,c.channel,0,
+					new InputDevices.WaterSensorDevice(this,this.controller,c.channel,0,
 						this._handleInputEvent,c.name);
-					this.controller.register(this.instances[i]);
-					i++;
 					break;
-				case 3:
+
+				case 6://Motion Sensor
+					channel = new Helper.MotionSensor(this.namespace,c.name,c.channel,c.desc);
+					new InputDevices.MotionSensorDevice(this,this.controller,c.channel,0,
+						this._handleInputEvent,c.name);
+					break;
+
+				case 7://Thermo Sensor
+					this.log.warn('Thermo sensor not supported in this version');
+					continue;
+
+				case 8://Switch
+					channel = new Helper.SimpleRelay(this.namespace,c.name,c.channel,c.desc);
+					this.outputDevices.createDevice(parseInt(c.channel),parseInt(c.protocol));
+					break;
+
+				case 9://Dimmer
 					channel = new Helper.Dimmer(this.namespace,c.name,c.channel,c.desc);
 					this.outputDevices.createDevice(parseInt(c.channel),parseInt(c.protocol),c.name,
 						this._handleOutputEvent);
 					break;
-				case 4:
+				
+				case 10://RGB
 					channel = new Helper.RGBRibbon(this.namespace,c.name,c.channel,c.desc);
 					this.outputDevices.createDevice(parseInt(c.channel),parseInt(c.protocol),c.name,
 						this._handleOutputEvent);
 					break;
-				case 5:
-					channel = new Helper.SimpleRelay(this.namespace,c.name,c.channel,c.desc);
-					this.outputDevices.createDevice(parseInt(c.channel),parseInt(c.protocol));
-					break;				
-				case 6:
-					channel = new Helper.MotionSensor(this.namespace,c.name,c.channel,c.desc);
-					this.log.info('MotionSensor');
-					this.instances[i] = new InputDevices.MotionSensorDevice(this,this.controller,c.channel,0,
-						this._handleInputEvent,c.name);
-					this.controller.register(this.instances[i]);
-					i++;
-					break;
-				case 7:
-					this.log.warn('Thermo sensor not supported in this version');
-					continue;	
+
 				default:
 					continue;				
 			}
