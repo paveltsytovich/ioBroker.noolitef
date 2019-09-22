@@ -11,10 +11,6 @@
         {
             "name": "feature/RemoveUnusedDeviceProperty",
             "base": "develop"
-        },
-        {
-            "name": "feature/FixRemoveDevice",
-            "base": "develop"
         }
     ]
 }
