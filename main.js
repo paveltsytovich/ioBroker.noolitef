@@ -75,21 +75,21 @@ class Noolitef extends utils.Adapter {
 				if(err) {
 					this.log.error('No exits object in iobroker database');
 				}
-			    this.config.devices.forEach(element => {
+				this.config.devices.forEach(element => {
 					toAdd.push(element);
 				});
 				for(const c in objects) {				
 					toDelete.push(objects[c]._id);
 					for(const o of toAdd) {
-						if(o  == objects[c]._id) {
-				 			toDelete.pop();			
+						if(this.namespace + '.' + o.name  == objects[c]._id) {
+							toDelete.pop();			
 							break;
 						}						
 					}					
-				}							
+				}					
 				setImmediate(this._syncDelete.bind(this),toDelete);
 				setImmediate(this._syncAdd.bind(this),toAdd);
-             		});
+			});
 		}
 	}
 	_syncDelete(objects) {
@@ -99,7 +99,7 @@ class Noolitef extends utils.Adapter {
 	}
 	_syncAdd(objects) {
 		let channel = undefined;
-		let i = 0;
+		const i = 0;
 		for(const k in objects) {
 			const c = objects[k];
 			switch(parseInt(c.type)) {
