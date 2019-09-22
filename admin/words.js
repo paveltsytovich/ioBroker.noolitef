@@ -2,7 +2,7 @@
 /*global systemDictionary:true */
 'use strict';
 
-const systemDictionary = {
+systemDictionary = {
 	'Noolite adapter settings' : {'en': 'Noolite adapter setting', 'ru': 'Настройки адаптера Noolite' },
 	'MTRF64 device' : {'en': 'MTRF64 adapter path', 'ru': 'Путь к устройству MTRF64'},
 	'Device List' : {'en' : 'Noolite Device List', 'ru' : 'Список устройств Noolite'},
