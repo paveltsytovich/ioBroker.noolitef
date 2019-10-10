@@ -12,5 +12,11 @@
             "name": "feature/RemoveUnusedDeviceProperty",
             "base": "develop"
         }
+    ],
+    "gitflow4code.releases": [
+        {
+            "name": "release/0-0-1",
+            "base": "develop"
+        }
     ]
 }
