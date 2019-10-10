@@ -1,16 +1,18 @@
 <html>
+<head>
+	<link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
+	<link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
 
-<link rel="stylesheet" type="text/css" href="../../lib/css/themes/jquery-ui/redmond/jquery-ui.min.css"/>
-<link rel="stylesheet" type="text/css" href="../../lib/css/jqGrid/ui.jqgrid-4.5.4.css"/>
-<script type="text/javascript" src="../../lib/js/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
-<script type="text/javascript" src="../../lib/js/jquery-ui-1.10.3.full.min.js"></script>
-<script type="text/javascript" src="../../lib/js/jqGrid/jquery.jqGrid-4.5.4.min.js"></script>
-<script type="text/javascript" src="../../lib/js/jqGrid/grid.locale-all.js"></script>
+	<link rel="stylesheet" type="text/css" href="../../lib/css/themes/jquery-ui/redmond/jquery-ui.min.css"/>
+	<script type="text/javascript" src="../../lib/js/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="../../lib/js/jquery-ui-1.10.3.full.min.js"></script>
+	
+	<script type="text/javascript" src="../../lib/js/materialize.js"></script>
 
-<link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
-<script type="text/javascript" src="../../js/translate.js"></script>
-<script type="text/javascript" src="../../js/adapter-settings.js"></script>
+	<script type="text/javascript" src="../../js/translate.js"></script>
+	<script type="text/javascript" src="../../js/adapter-settings.js"></script>
+	<script type="text/javascript" src="words.js"></script>	
 
 <style>
     .no-space {
@@ -20,35 +22,177 @@
         border-spacing: 0;
         border-image-width: 0;
     }
+	#values {
+		height: calc(100% - 230px);
+	}
 </style>
-<script>
-	var systemDictionary = {
-		"Noolite adapter settings" : {"en": "Noolite adapter setting", "ru": "Настройки адаптера Noolite" },
-		"MTRF64 device" : {"en": "MTRF64 adapter path", "ru": "Путь к устройству MTRF64"},
-		"Device List" : {"en" : "Noolite Device List", "ru" : "Список устройств Noolite"},
-		"Name" : { "en" : "Device name", "ru" : "Имя устройства"},
-		"Remote Control" : { "en": "Remote control device", "ru": "Пульт Noolite"},
-		"Door Sensor" : { "en" : "Door Sensor", "ru": "Датчик открытия двери"},
-		"Water Sensor": { "en": "Water Sensor", "ru": "Датчик протечки"},
-		"Dimmer" : { "en" : "Dimmer", "ru": "Диммер"},
-		"RGB" : {"en": "RGB ribbon", "ru": "RGB-лента"},
-		"Switch": {"en" : "Switch", "ru": "Обычное реле"},
-		"Bind" : { "en" : "Bind", "ru" : "Привязка"},
-		"Unbind" : { "en" : "Unbind", "ru" : "Отвязка"},
-		"Protocol-NooliteF" : {"en" : "Noolite-F protocol", "ru": "Протокол Noolite-F"},
-		"Protocol-Noolite" : { "en" : "Noolite protocol", "ru": "Протокол Noolite"}
-	};
-	var onchange = null;
-    var channels = [];
-    var active   = false;
-</script>
-<div id="adapter-container">
-	<table>
-		<tr><td><img src="noolite.png"></td><td><h3 class="translate">Noolite adapter settings</h3></td></tr>
-	</table>
-	<table>
-    	<tr><td class="translate" style="text-align: right">MTRF64 device</td><td><input  class="value" id="devpath"/></td><td></td></tr>
-	</table>
-	<h4 class="translate">Device List</h4>
+<script type="text/javascript">
+	
+	function setValue(id, value, onChange) {
+        var $value = $('#' + id + '.value');
+        if ($value.attr('type') === 'checkbox') {
+            $value.prop('checked', value).on('change', function() {
+                onChange();
+            });
+        } else {
+            $value.val(value).on('change', function() {
+                onChange();
+            }).on('keyup', function() {
+                // Check that only numbers entered
+                if ($(this).hasClass('number')) {
+                    var val = $(this).val();
+                    if (val) {
+                        var newVal = '';
+                        for (var i = 0; i < val.length; i++) {
+                            if (val[i] >= '0' && val[i] <= '9') {
+                                newVal += val[i];
+                            }
+                        }
 
+                        if (val !== newVal) $(this).val(newVal);
+                    }
+                }
+
+                onChange();
+            });
+        }
+    }
+
+	function save(callback) {
+        var obj = {};
+        $('.value').each(function () {
+            var $this = $(this);
+            if ($this.attr('type') === 'checkbox') {
+                obj[$this.attr('id')] = $this.prop('checked');
+            } else {
+                obj[$this.attr('id')] = $this.val();
+            }
+        });
+
+        // Get edited table
+        obj.devices = table2values('values');
+
+        callback(obj);
+    }
+	function load(settings, onChange) {
+        if (!settings) return;
+
+        // if (settings.devpath === undefined) settings.devpath = '/dev/ttyUSB0';
+        // if (settings.isMqttOutput === undefined) settings.isMqttOutput = false;
+        // if (settings.isMqttIutput === undefined) settings.isMqttIutput = false;
+
+        var devices = settings.devices || [];
+
+        for (var key in settings) {
+            if (settings.hasOwnProperty(key) && !Array.isArray(settings[key])) setValue(key, settings[key], onChange);
+        }
+
+        values2table('values', devices, onChange, function () {
+        $('a[data-command="pair"]').on('click',(e) => { 
+            pairing(devices[$(e.currentTarget).data('index')],true);
+        });
+        $('a[data-command="unpair"]').on('click',(e) => { 
+            pairing(devices[$(e.currentTarget).data('index')],false);
+        });
+        });
+                onChange(false);
+    }
+    function pairing(device,isPair) {
+      if(isPair) {
+        confirmMessage(_('Brief for bind'),_('Bind'),"<img src='relay.jpg' class='logo'/>",
+            [_('YesBind'),_('Nobind')],(id) => {
+                if(id == 0) {
+                    let data = JSON.stringify(device);
+                    sendTo(null,'Bind',data,(msg) => {
+                       if(!msg)
+                        showError(msg)
+                    });
+                }
+            }) ; 
+      }
+      else {
+            confirmMessage(_('Brief for unbind'),_('Unbind'),"<img src='relay.jpg' class='logo'/>",
+            [_('YesUnBind'),_('NoUnbind')],(id) => {
+                if(id == 0) {
+                    let data = JSON.stringify(device);
+                    sendTo(null,'Unbind',data,(msg) => {
+                        if(!msg)
+                        showError(msg)
+                    });
+                }
+            }) ; 
+      }
+    }
+
+</script>
+</head>
+<body>
+<div class="m adapter-container" style="overflow: visible">
+    <div class="main-page row">
+        <div class="col s12">
+            <ul class="tabs">
+                <li class="tab col s4"><a href="#tab-main" class="translate active">Common</a></li>
+                <li class="tab col s4"><a href="#tab-mqtt" class="translate">MQTT Settings</a></li>
+            </ul>
+        </div>
+        <div id="tab-main" class="col s12 page" style="overflow: visible">
+            <div class="row" style="margin-bottom: 0">
+                <div class="col s6">
+                    <img src="noolitef.png" class="logo">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                <input class="value" id="devpath" type="text"/>
+                <label class="translate" for="devpath">MTRF64 device</label>
+                </div>
+            </div>
+                <div class="row">
+                    <div class="col s12" id="values">
+                        <h6 class="translate">Device List</h6>
+                        <a class="btn-floating waves-effect waves-light blue table-button-add"><i class="material-icons">add</i></a>
+                        <div class="table-values-div" >
+                            <table class="table-values">
+                                <thead>
+                                <tr>
+                                    <th data-name="_index"   style="width: 20px" class="translate"></th>
+                                    <th data-name="type" data-options="0/On Off Switcher;1/On and Off keypad;2/Scenario button;3/RGB remote control;4/Door Sensor;5/Water Sensor;6/Motion Sensor;7/Thermo Sensor;8/Switch;9/Dimmer;10/RGB" data-default="8" style="width: 400px" data-type="select" class="translate">Type</th>
+                                    <th data-name="channel" style="width: 100px" data-type="number" class="translate">Channel</th>
+                                    <th data-name="protocol" style="width: 100px;" data-type="select" data-options="0/NooliteF;1/Noolite" data-default="0" class="translate">Protocol</th>
+                                    <th data-name="name" style="width: 30%" class="translate">Name</th>
+                                    <th data-name="desc" style="width: 30%" class="translate">Description</th>
+                                    <th data-buttons="pair unpair delete" style="width: 80px">Link</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>        
+         </div>
+    <div id="tab-mqtt" class="col s12 page">
+        <div class="row" style="margin-bottom: 0">
+            <div class="col s6">
+                <img src="noolitef.png" class="logo">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                    <input class="value filled-in" id="isMqttInput" type="checkbox"/>
+                    <label class="translate" for="isMqttInput">Use for input</label> 
+            </div>
+        </div>
+        <div class="row">
+                <div class="col s12">                    
+                        <input class="value filled-in" id="isMqttOutput" type="checkbox"/>
+                        <label class="translate" for="isMqttOutput">Use for output</label>
+                </div>
+        </div>
+        <div class="row">
+                <div class="col s12">
+                       <p class="translate">Notes</p>
+                </div>
+        </div>
+    </div>
+    </div>
 </div>
+</body>
