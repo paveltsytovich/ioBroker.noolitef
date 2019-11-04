@@ -66,7 +66,8 @@ class Noolitef extends utils.Adapter {
 
 	}
 	_syncObject() {
-		this.log.info('start sync');
+		if(this.debug)
+			this.log.info('start sync');
 		const toDelete = [];
 		const toAdd = [];
 				
@@ -181,7 +182,8 @@ class Noolitef extends utils.Adapter {
 	}
 	_handleOutputEvent(name, property,data) {
 		const stateName = this.namespace + '.' + name.trim() + '.' + property;
-		this.log.info('handle output event for ' + stateName + ' with data ' + data);
+		if(this.debug)
+			this.log.info('handle output event for ' + stateName + ' with data ' + data);
 		this.setState(stateName,{val: data, ack: true});
 	}
 
@@ -191,7 +193,8 @@ class Noolitef extends utils.Adapter {
 			return;
 		this.lastcall = d;
 		const stateName = this.namespace + '.' + name.trim() + '.' + property;
-		this.log.info('handle input events for ' + stateName + ' with data ' + data);
+		if(this.debug)
+			this.log.info('handle input events for ' + stateName + ' with data ' + data);
 		if(data === null)
 			this.setState(stateName, {val: true, ack: true});	
 		else 
@@ -220,7 +223,7 @@ class Noolitef extends utils.Adapter {
 	 * @param {ioBroker.Object | null | undefined} obj
 	 */
 	onObjectChange(id, obj) {
-		this.log.info('object change from ' + id + 'with ' + JSON.stringify(obj));
+		//this.log.info('object change from ' + id + 'with ' + JSON.stringify(obj));
 		//TO DO
 		// if (obj) {
 		// 	// The object was changed
@@ -237,7 +240,8 @@ class Noolitef extends utils.Adapter {
 	 * @param {ioBroker.State | null | undefined} state
 	 */
 	async onStateChange(id, state) {
-		this.log.info('state change from ' + id + 'with ' + JSON.stringify(state));
+		if(this.debug)
+			this.log.info('state change from ' + id + 'with ' + JSON.stringify(state));
 		if(!state || state.ack) 
 			return;
 		const deviceId = id.substring(0,id.lastIndexOf('.'));
@@ -253,7 +257,8 @@ class Noolitef extends utils.Adapter {
 	 * @param {ioBroker.Message} obj
 	 */
 	onMessage(obj) {
-		this.log.info(JSON.stringify(obj));
+		if(this.debug)
+			this.log.info(JSON.stringify(obj));
 		if (typeof obj === 'object' && obj.message) {
 			const msg = JSON.parse(obj.message);
 			if (obj.command === 'Bind') {
@@ -269,16 +274,12 @@ class Noolitef extends utils.Adapter {
 			else if (obj.command == 'Unbind') {
 				this.log.info('Unbind command');
 				const result = Binding.Unpairing(this.controller,parseInt(msg.type),
-				 parseInt(msg.channel),parseInt(msg.protocol));
+					parseInt(msg.channel),parseInt(msg.protocol));
 				if (obj.callback) 
 					this.sendTo(obj.from, obj.command, result, obj.callback);
 			}
 		}
 	}
-	_internal() {
-		console.log('stub');
-	}
-
 }
 
 // @ts-ignore
