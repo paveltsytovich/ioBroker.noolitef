@@ -1,3 +1,7 @@
+/**
+ *  @copyright Pavel Tsytovich, 2019
+ *  Implement iobroker adapter for Noolite-F protocol
+ */
 // @ts-nocheck
 'use strict';
 
@@ -16,13 +20,18 @@ const Binding = require('./lib/bindingDevice');
 const OutputDevices = require('./lib/outputDevices');
 
 
+
 // Load your modules here, e.g.:
 // const fs = require("fs");
-
+/**
+ * @class Noolitef
+ * iobroker adapter main class
+ */
 class Noolitef extends utils.Adapter {
 
 	/**
-	 * @param {Partial<ioBroker.AdapterOptions>} [options={}]
+	 * @method constructor
+	 * @param {Partial<ioBroker.AdapterOptions>} [options={}] - Options object. Use internal by iobroker
 	 */
 	constructor(options) {
 		super({
@@ -42,7 +51,8 @@ class Noolitef extends utils.Adapter {
 
 	}
 	/**
-	 * Is called when databases are connected and adapter received configuration.
+	 * @method onReady
+	 * Called by iobroker when databases are connected and adapter received configuration.
 	 */
 	onReady() {
 		return new Promise((res) => {
@@ -65,6 +75,10 @@ class Noolitef extends utils.Adapter {
 		});
 
 	}
+	/**
+	 * @method _syncObject
+	 * Internal method for synchronize object with iobroker database
+	 */
 	_syncObject() {
 		if(this.debug)
 			this.log.info('start sync');
@@ -93,11 +107,22 @@ class Noolitef extends utils.Adapter {
 			});
 		}
 	}
+/**
+ * @method _syncDelete
+ * Internal method for remove object from iobroker database if object has been removed from config adapter
+ * @param {Array} objects - object`s array for remove
+ */
+
 	_syncDelete(objects) {
 		for(const c of objects) {
 			this.deleteChannel(this.namespace + '.' + c);
 		}
 	}
+/**
+ * @method _syncAdd
+ * Internal method for add object to iobroker datavase if object is new in config
+ * @param {Array} objects  - object`s array for add
+ */
 	_syncAdd(objects) {
 		let channel = undefined;
 		const i = 0;
@@ -177,16 +202,31 @@ class Noolitef extends utils.Adapter {
 			}
 		}
 	}
+	/**
+	 * @method _mqttInit
+	 * Internal method for mqtt initialize
+	 * @description in this version this method not yet implemented
+	 */
 	_mqttInit() {
 		//TO DO for future
 	}
+	/**
+	 * @method _handleOutputEvent
+	 * Internal method for handle event while state change by adapter
+	 */
 	_handleOutputEvent(name, property,data) {
 		const stateName = this.namespace + '.' + name.trim() + '.' + property;
 		if(this.debug)
 			this.log.info('handle output event for ' + stateName + ' with data ' + data);
 		this.setState(stateName,{val: data, ack: true});
 	}
-
+	/**
+	 * @method _handleInputEvent
+	 * Internal method for handle event from input Noolite-F device
+	 * @param {string} name - base state path
+	 * @param {string} property - state was changed
+	 * @param {any} data - data for state
+	 */
 	_handleInputEvent(name, property,data = null) {
 		const d = new Date().getTime();
 		if(d - this.lastcall < 1000) 
@@ -201,6 +241,7 @@ class Noolitef extends utils.Adapter {
 			this.setState(stateName, {val: data, ack: true});	
 	}
 	/**
+	 * @method onUnload
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
 	 * @param {() => void} callback
 	 */
@@ -218,23 +259,7 @@ class Noolitef extends utils.Adapter {
 	}
 
 	/**
-	 * Is called if a subscribed object changes
-	 * @param {string} id
-	 * @param {ioBroker.Object | null | undefined} obj
-	 */
-	onObjectChange(id, obj) {
-		//this.log.info('object change from ' + id + 'with ' + JSON.stringify(obj));
-		//TO DO
-		// if (obj) {
-		// 	// The object was changed
-		// 	this.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
-		// } else {
-		// 	// The object was deleted
-		// 	this.log.info(`object ${id} deleted`);
-		// }
-	}
-
-	/**
+	 * @method onStateChange
 	 * Is called if a subscribed state changes
 	 * @param {string} id
 	 * @param {ioBroker.State | null | undefined} state
@@ -252,6 +277,7 @@ class Noolitef extends utils.Adapter {
 	}
  
 	/**
+	 * @method onMessage
 	 * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
 	 * Using this method requires "common.message" property to be set to true in io-package.json
 	 * @param {ioBroker.Message} obj
