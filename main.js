@@ -11,7 +11,7 @@ const utils = require('@iobroker/adapter-core');
 const MTRF64Driver = require('mtrf64');
 const SerialPort = require('serialport');
 const Helper = require('./lib/helpers');
-const InputDevices = require('./lib/inputDevices');
+const InputDevices = require('./lib/InputDevices');
 const Binding = require('./lib/bindingDevice');
 const OutputDevices = require('./lib/outputDevices');
 
