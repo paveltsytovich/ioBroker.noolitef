@@ -107,7 +107,7 @@ class Noolitef extends utils.Adapter {
 			});
 		}
 	}
-/**
+	/**
  * @method _syncDelete
  * Internal method for remove object from iobroker database if object has been removed from config adapter
  * @param {Array} objects - object`s array for remove
@@ -118,14 +118,13 @@ class Noolitef extends utils.Adapter {
 			this.deleteChannel(this.namespace + '.' + c);
 		}
 	}
-/**
+	/**
  * @method _syncAdd
  * Internal method for add object to iobroker datavase if object is new in config
  * @param {Array} objects  - object`s array for add
  */
 	_syncAdd(objects) {
 		let channel = undefined;
-		const i = 0;
 		for(const k in objects) {
 			const c = objects[k];
 			switch(parseInt(c.type)) {
