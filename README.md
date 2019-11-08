@@ -20,7 +20,14 @@ This adapter integrated Noolite-F device into iobroker
 ## Changelog
 
 ### 0.0.1
-* (Pavel Tsytovich) initial release
+* (Pavel Tsytovich) initial release. Base function for Noolite-F protocol
+
+### Known problem and TODO
+
+* MQTT not supported yet
+* Request and receive state from SUF device not supported yet
+* In LED RGB state brigthness not used. It is bug. Fix in next version
+* Timeout between send Noolite command is fixed now. It is occur some problem in different situation
 
 ## License
 MIT License
