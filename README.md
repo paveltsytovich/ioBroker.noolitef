@@ -32,7 +32,7 @@ This adapter integrated Noolite-F device into iobroker
 ## Usage
 
 * For install please read [Installation Guide](/docs/install.md)
-* For use in ioBroker scenaries read [Programming Manual](/docs/programming.md)
+* For use this adapter with ioBroker scenaries please read [Programming Manual](/docs/programming.md)
 
 
 ## License
