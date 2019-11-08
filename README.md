@@ -29,6 +29,12 @@ This adapter integrated Noolite-F device into iobroker
 * In LED RGB state brigthness not used. It is bug. Fix in next version
 * Timeout between send Noolite command is fixed now. It is occur some problem in different situation
 
+## Usage
+
+* For install please read [Installation Guide](/docs/install.md)
+* For use in ioBroker scenaries read [Programming Manual](/docs/programming.md)
+
+
 ## License
 MIT License
 
