@@ -80,7 +80,7 @@ class Noolitef extends utils.Adapter {
 	 * Internal method for synchronize object with iobroker database
 	 */
 	_syncObject() {
-		if(this.debug)
+		if(this.config.debug)
 			this.log.info('start sync');
 		const toDelete = [];
 		const toAdd = [];
@@ -215,7 +215,7 @@ class Noolitef extends utils.Adapter {
 	 */
 	_handleOutputEvent(name, property,data) {
 		const stateName = this.namespace + '.' + name.trim() + '.' + property;
-		if(this.debug)
+		if(this.config.debug)
 			this.log.info('handle output event for ' + stateName + ' with data ' + data);
 		this.setState(stateName,{val: data, ack: true});
 	}
@@ -232,7 +232,7 @@ class Noolitef extends utils.Adapter {
 			return;
 		this.lastcall = d;
 		const stateName = this.namespace + '.' + name.trim() + '.' + property;
-		if(this.debug)
+		if(this.config.debug)
 			this.log.info('handle input events for ' + stateName + ' with data ' + data);
 		if(data === null)
 			this.setState(stateName, {val: true, ack: true});	
@@ -264,7 +264,7 @@ class Noolitef extends utils.Adapter {
 	 * @param {ioBroker.State | null | undefined} state
 	 */
 	async onStateChange(id, state) {
-		if(this.debug)
+		if(this.config.debug)
 			this.log.info('state change from ' + id + 'with ' + JSON.stringify(state));
 		if(!state || state.ack) 
 			return;
@@ -282,7 +282,7 @@ class Noolitef extends utils.Adapter {
 	 * @param {ioBroker.Message} obj
 	 */
 	onMessage(obj) {
-		if(this.debug)
+		if(this.config.debug)
 			this.log.info(JSON.stringify(obj));
 		if (typeof obj === 'object' && obj.message) {
 			const msg = JSON.parse(obj.message);
