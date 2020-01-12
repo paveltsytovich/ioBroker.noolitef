@@ -28,6 +28,7 @@ This adapter integrated Noolite-F device into iobroker
 * Request and receive state from SUF device not supported yet
 * In LED RGB state brigthness not used. It is bug. Fix in future versions
 * Timeout between send Noolite command is fixed now. It is occur some problem in different situation
+* In device list protocol must be Noolite-F constantly. Use Noolite protocol only for binding or unbinding operation. This problem will solve in near future version
 
 ## Usage
 
