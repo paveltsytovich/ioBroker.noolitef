@@ -47,15 +47,21 @@ This device have states:
 * onStopReq - true when the user has stopped long pressing the ON/OFF button
 * onLowBattery - set true if battery is low
 
+### Door Sendor - The door sensor device object
 
-  * 
-* Door Sendor - The door sensor device object
-* Water Sensor - The Water sensor device object
-* Motion Sensor - The motion sensor device object
-* Thermo Sensor - The thermo sensor. Not supported yet
-* Switch - The simple relay object
-* Dimmer - The relay with dimmer functional object
-* RGB ribbon - The RGB controller object
+* onLowBattery - set true if battery is low
+  
+### Water Sensor - The Water sensor device object
+* onLowBattery - set true if battery is low
+  
+### Motion Sensor - The motion sensor device object
+* onLowBattery - set true if battery is low
+  
+### Switch - The simple relay object
+
+### Dimmer - The relay with dimmer functional object
+
+### RGB ribbon - The RGB controller object
 
 ## Device parameters in setup panel in Noolite-F adapter
 
