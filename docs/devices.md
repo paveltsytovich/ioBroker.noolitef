@@ -62,8 +62,3 @@ This device have states:
 ### Dimmer - The relay with dimmer functional object
 
 ### RGB ribbon - The RGB controller object
-
-## Device parameters in setup panel in Noolite-F adapter
-
-* 
-
