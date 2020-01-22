@@ -15,7 +15,7 @@
     ],
     "gitflow4code.releases": [
         {
-            "name": "release/0-0-1",
+            "name": "release/0-0-1a",
             "base": "develop"
         }
     ]

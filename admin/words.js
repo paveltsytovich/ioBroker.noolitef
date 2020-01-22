@@ -38,5 +38,7 @@ systemDictionary = {
 	'Nobind' : {'en' : 'No, I do mistake', 'ru' : 'Нет, я ошибся'},
 	'Motion Sensor' : {'en' : 'Motion Sensor', 'ru': 'Датчик движения'},
 	'Thermo Sensor' : { 'en' : 'Thermo Sensor', 'ru' : 'Датчик температуры'},
-	'Description' : { 'en' : 'Description', 'ru'  : 'Описание'}
+	'Description' : { 'en' : 'Description', 'ru'  : 'Описание'},
+	'DebugLog' : { 'en' : 'Debug messages in log', 'ru' : 'Отладочные сообщения в логе'},
+	'Debug' : {'en' : 'Debug', 'ru' : 'Отладка'}
 };
