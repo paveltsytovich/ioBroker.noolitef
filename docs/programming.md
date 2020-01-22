@@ -1,11 +1,11 @@
 # Programming Guide
 
-## State for Input devices
+TO DO
 
+## Handle changes from input devices (from sensors)
 
-## State for output devices
+TO DO
 
+## Set to new state for output device (switch, dimmer and RGB ribbon)
 
-## Sample Scenarios with Noolite-F adapter
-
-
+TO DO
