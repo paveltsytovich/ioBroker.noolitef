@@ -11,6 +11,10 @@
         {
             "name": "feature/RemoveUnusedDeviceProperty",
             "base": "develop"
+        },
+        {
+            "name": "feature/select-protocol-from-binding-form",
+            "base": "develop"
         }
     ],
     "gitflow4code.releases": []
