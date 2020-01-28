@@ -3,6 +3,8 @@
 	ioBroker.noolitef
 </h1>
 
+Copyright (c) 2020 Pavel Tsytovich pavel.tsytovich@gmail.com
+
 [![NPM version](http://img.shields.io/npm/v/iobroker.noolitef.svg)](https://www.npmjs.com/package/iobroker.noolitef)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.noolitef.svg)](https://www.npmjs.com/package/iobroker.noolitef)
 [![Dependency Status](https://img.shields.io/david/paveltsytovich/iobroker.noolitef.svg)](https://david-dm.org/paveltsytovich/iobroker.noolitef)
