@@ -249,6 +249,7 @@ class Noolitef extends utils.Adapter {
 			if (this.serialport && this.serialport.isOpen) {
 				await this.serialport.close();
 			}
+			this.controller.close(); //fix for clear timeout
 			delete this.serialport;
 			this.log.info('cleaned everything up...');
 			callback();
