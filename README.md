@@ -3,8 +3,6 @@
 	ioBroker.noolitef
 </h1>
 
-Copyright (c) 2020 Pavel Tsytovich pavel.tsytovich@gmail.com
-
 [![NPM version](http://img.shields.io/npm/v/iobroker.noolitef.svg)](https://www.npmjs.com/package/iobroker.noolitef)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.noolitef.svg)](https://www.npmjs.com/package/iobroker.noolitef)
 [![Dependency Status](https://img.shields.io/david/paveltsytovich/iobroker.noolitef.svg)](https://david-dm.org/paveltsytovich/iobroker.noolitef)
@@ -41,7 +39,7 @@ This adapter integrated Noolite-F device into iobroker
 ## License
 MIT License
 
-Copyright (c) 2019 Pavel Tsytovich
+Copyright (c) 2020 Pavel Tsytovich <pavel.tsytovich@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
