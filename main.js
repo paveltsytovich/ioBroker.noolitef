@@ -55,6 +55,7 @@ class Noolitef extends utils.Adapter {
 	 * Called by iobroker when databases are connected and adapter received configuration.
 	 */
 	onReady() {
+		this._syncObject(); // temporary
 		return new Promise((res) => {
 			this.serialport = new SerialPort(this.config.devpath)
 				// wait for the open event before claiming we are ready
@@ -86,7 +87,8 @@ class Noolitef extends utils.Adapter {
 		const toAdd = [];
 				
 		if(this.config.devices) {
-			this.getForeignObjects(this.namespace +'.*','channel',(err,objects) => {
+		
+			this.getChannelsOf(this.namespace,(err,objects) => {
 				if(err) {
 					this.log.error('No exits object in iobroker database');
 				}
