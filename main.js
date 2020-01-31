@@ -44,7 +44,7 @@ class Noolitef extends utils.Adapter {
 		this.lastcall = new Date().getTime();
 		this.outputDevices = null;
 		this.on('ready', this.onReady);
-		this.on('objectChange', this.onObjectChange);
+		//this.on('objectChange', this.onObjectChange);//temporary off
 		this.on('stateChange', this.onStateChange);
 		this.on('message', this.onMessage);
 		this.on('unload', this.onUnload);
