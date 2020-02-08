@@ -82,7 +82,7 @@ class Noolitef extends utils.Adapter {
 		},
 		(reason) => {
 			this.log.error(reason);
-			this.controller = {}; //create fake controller for sync only
+			this.controller = { register: () => {}}; //create fake controller for sync only
 			this.outputDevices = new OutputDevices.OutputDevicesController(this,this.controller);
 			this._syncObject();
 		});
