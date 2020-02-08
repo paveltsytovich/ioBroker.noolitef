@@ -208,10 +208,8 @@ class Noolitef extends utils.Adapter {
 					continue;				
 			}
 			const r = channel.getObject();
-			this.setObject(r._id,r);
-			//this.setForeignObject(r._id,r);
-			for(const s of channel.getStates()) {
-				//this.setForeignObject(s._id,s);
+			this.setObject(r._id,r);			
+			for(const s of channel.getStates()) {				
 				this.setObject(s._id,s);         
 			}
 		}
