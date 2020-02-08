@@ -56,29 +56,36 @@ class Noolitef extends utils.Adapter {
 	 */
 	onReady() {
 		return new Promise((res,rej) => {
-			try
-			{
-				this.serialport = new SerialPort(this.config.devpath)
+			this.serialport = new SerialPort(this.config.devpath, (err) => {
+				if(err)
+					rej('error open port ' + this.config.devpath);
+			})
 				// wait for the open event before claiming we are ready
-					.on('open', () => res())
+				.on('open', () => res())
 				// TODO: add other event handlers
-				;
-				// @ts-ignore
-				if (!this.serialport.isOpen && !this.serialport.opening)
-					this.serialport.open();
-			}
-			catch(e)
-			{
-				rej('No open port' + this.config.devpath);	
-			}
+			;
+			// @ts-ignore
+			if (!this.serialport.isOpen && !this.serialport.opening)
+				this.serialport.open();
+			
+			
 		}).then(() => {
-			this.parser = this.serialport.pipe(new SerialPort.parsers.ByteLength({length: 17}));
-			this.controller = new MTRF64Driver.Controller(this.serialport,this.parser);
-			this.outputDevices = new OutputDevices.OutputDevicesController(this,this.controller);
+			if(this.serialport.isOpen)
+			{
+				this.parser = this.serialport.pipe(new SerialPort.parsers.ByteLength({length: 17}));
+				this.controller = new MTRF64Driver.Controller(this.serialport,this.parser);
+				this.outputDevices = new OutputDevices.OutputDevicesController(this,this.controller);
+				this.subscribeStates('*');
+				this.log.info('adapter ' + this.name + ' connect to ' + this.config.devpath);
+			}
+			else      
+			{
+				this.log.error('adapter ' + this.name + ' not connected to ' + this.config.devpath);
+			}
 			this._syncObject();
 			this._mqttInit();
-			this.subscribeStates('*');
-			this.log.info('adapter ' + this.name + ' is ready');
+			
+			//this.log.info('adapter ' + this.name + ' is ready');
 		},
 		(reason) => {
 			this.log.error(reason);
