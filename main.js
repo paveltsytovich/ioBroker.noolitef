@@ -75,13 +75,13 @@ class Noolitef extends utils.Adapter {
 			this.controller = new MTRF64Driver.Controller(this.serialport,this.parser);
 			this.outputDevices = new OutputDevices.OutputDevicesController(this,this.controller);
 			this.subscribeStates('*');
-			this.log.info('adapter ' + this.name + ' connect to ' + this.config.devpath);
-			
+			this.log.info('adapter ' + this.name + ' connect to ' + this.config.devpath);			
 			this._syncObject();
 			this._mqttInit();
 		},
 		(reason) => {
 			this.log.error(reason);
+			this.log.warn('objects will be sync, but adapter not work because serial port was not opened!');
 			this.controller = { register: () => {}}; //create fake controller for sync only
 			this.outputDevices = new OutputDevices.OutputDevicesController(this,this.controller);
 			this._syncObject();
