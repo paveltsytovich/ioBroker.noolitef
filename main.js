@@ -79,8 +79,6 @@ class Noolitef extends utils.Adapter {
 			
 			this._syncObject();
 			this._mqttInit();
-			
-			//this.log.info('adapter ' + this.name + ' is ready');
 		},
 		(reason) => {
 			this.log.error(reason);
