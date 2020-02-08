@@ -70,18 +70,13 @@ class Noolitef extends utils.Adapter {
 			
 			
 		}).then(() => {
-			if(this.serialport.isOpen)
-			{
-				this.parser = this.serialport.pipe(new SerialPort.parsers.ByteLength({length: 17}));
-				this.controller = new MTRF64Driver.Controller(this.serialport,this.parser);
-				this.outputDevices = new OutputDevices.OutputDevicesController(this,this.controller);
-				this.subscribeStates('*');
-				this.log.info('adapter ' + this.name + ' connect to ' + this.config.devpath);
-			}
-			else      
-			{
-				this.log.error('adapter ' + this.name + ' not connected to ' + this.config.devpath);
-			}
+			
+			this.parser = this.serialport.pipe(new SerialPort.parsers.ByteLength({length: 17}));
+			this.controller = new MTRF64Driver.Controller(this.serialport,this.parser);
+			this.outputDevices = new OutputDevices.OutputDevicesController(this,this.controller);
+			this.subscribeStates('*');
+			this.log.info('adapter ' + this.name + ' connect to ' + this.config.devpath);
+			
 			this._syncObject();
 			this._mqttInit();
 			
