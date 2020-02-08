@@ -55,15 +55,22 @@ class Noolitef extends utils.Adapter {
 	 * Called by iobroker when databases are connected and adapter received configuration.
 	 */
 	onReady() {
-		return new Promise((res) => {
-			this.serialport = new SerialPort(this.config.devpath)
+		return new Promise((res,rej) => {
+			try
+			{
+				this.serialport = new SerialPort(this.config.devpath)
 				// wait for the open event before claiming we are ready
-				.on('open', () => res())
+					.on('open', () => res())
 				// TODO: add other event handlers
-			;
-			// @ts-ignore
-			if (!this.serialport.isOpen && !this.serialport.opening)
-				this.serialport.open();
+				;
+				// @ts-ignore
+				if (!this.serialport.isOpen && !this.serialport.opening)
+					this.serialport.open();
+			}
+			catch(e)
+			{
+				rej('No open port' + this.config.devpath);	
+			}
 		}).then(() => {
 			this.parser = this.serialport.pipe(new SerialPort.parsers.ByteLength({length: 17}));
 			this.controller = new MTRF64Driver.Controller(this.serialport,this.parser);
@@ -72,8 +79,11 @@ class Noolitef extends utils.Adapter {
 			this._mqttInit();
 			this.subscribeStates('*');
 			this.log.info('adapter ' + this.name + ' is ready');
+		},
+		(reason) => {
+			this.log.error(reason);
+			this._syncObject();
 		});
-
 	}
 	/**
 	 * @method _syncObject
