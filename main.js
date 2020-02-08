@@ -257,10 +257,13 @@ class Noolitef extends utils.Adapter {
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
 	 * @param {() => void} callback
 	 */
-	async onUnload(callback) {
+	onUnload(callback) {
 		try {
 			if (this.serialport && this.serialport.isOpen) {
-				await this.serialport.close();
+				this.serialport.close((err) => {
+					if(err)
+						this.log.error('Error close port ' + this.config.devpath);
+				});
 			}
 			this.controller.close(); //fix for clear timeout
 			delete this.serialport;
