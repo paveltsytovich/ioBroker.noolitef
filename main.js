@@ -44,7 +44,7 @@ class Noolitef extends utils.Adapter {
 		this.lastcall = new Date().getTime();
 		this.outputDevices = null;
 		this.on('ready', this.onReady);
-		this.on('objectChange', this.onObjectChange);
+		//this.on('objectChange', this.onObjectChange);//temporary off
 		this.on('stateChange', this.onStateChange);
 		this.on('message', this.onMessage);
 		this.on('unload', this.onUnload);
@@ -55,8 +55,11 @@ class Noolitef extends utils.Adapter {
 	 * Called by iobroker when databases are connected and adapter received configuration.
 	 */
 	onReady() {
-		return new Promise((res) => {
-			this.serialport = new SerialPort(this.config.devpath)
+		return new Promise((res,rej) => {
+			this.serialport = new SerialPort(this.config.devpath, (err) => {
+				if(err)
+					rej('error open port ' + this.config.devpath);
+			})
 				// wait for the open event before claiming we are ready
 				.on('open', () => res())
 				// TODO: add other event handlers
@@ -64,16 +67,25 @@ class Noolitef extends utils.Adapter {
 			// @ts-ignore
 			if (!this.serialport.isOpen && !this.serialport.opening)
 				this.serialport.open();
+			
+			
 		}).then(() => {
+			
 			this.parser = this.serialport.pipe(new SerialPort.parsers.ByteLength({length: 17}));
 			this.controller = new MTRF64Driver.Controller(this.serialport,this.parser);
 			this.outputDevices = new OutputDevices.OutputDevicesController(this,this.controller);
+			this.subscribeStates('*');
+			this.log.info('adapter ' + this.name + ' connect to ' + this.config.devpath);			
 			this._syncObject();
 			this._mqttInit();
-			this.subscribeStates('*');
-			this.log.info('adapter ' + this.name + ' is ready');
+		},
+		(reason) => {
+			this.log.error(reason);
+			this.log.warn('objects will be sync, but adapter not work because serial port was not opened!');
+			this.controller = { register: () => {}}; //create fake controller for sync only
+			this.outputDevices = new OutputDevices.OutputDevicesController(this,this.controller);
+			this._syncObject();
 		});
-
 	}
 	/**
 	 * @method _syncObject
@@ -86,7 +98,8 @@ class Noolitef extends utils.Adapter {
 		const toAdd = [];
 				
 		if(this.config.devices) {
-			this.getForeignObjects(this.namespace +'.*','channel',(err,objects) => {
+		
+			this.getChannelsOf(this.namespace,(err,objects) => {
 				if(err) {
 					this.log.error('No exits object in iobroker database');
 				}
@@ -195,9 +208,9 @@ class Noolitef extends utils.Adapter {
 					continue;				
 			}
 			const r = channel.getObject();
-			this.setForeignObject(r._id,r);
-			for(const s of channel.getStates()) {
-				this.setForeignObject(s._id,s);
+			this.setObject(r._id,r);			
+			for(const s of channel.getStates()) {				
+				this.setObject(s._id,s);         
 			}
 		}
 	}
@@ -244,11 +257,15 @@ class Noolitef extends utils.Adapter {
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
 	 * @param {() => void} callback
 	 */
-	async onUnload(callback) {
+	onUnload(callback) {
 		try {
 			if (this.serialport && this.serialport.isOpen) {
-				await this.serialport.close();
+				this.serialport.close((err) => {
+					if(err)
+						this.log.error('Error close port ' + this.config.devpath);
+				});
 			}
+			this.controller.close(); //fix for clear timeout
 			delete this.serialport;
 			this.log.info('cleaned everything up...');
 			callback();
