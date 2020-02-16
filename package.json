@@ -1,6 +1,6 @@
 {
   "name": "iobroker.noolitef",
-  "version": "0.0.3-3",
+  "version": "0.0.3-4",
   "description": "This adapter integrated Noolite-F device into iobroker",
   "author": {
     "name": "Pavel Tsytovich",
