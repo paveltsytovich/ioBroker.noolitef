@@ -1,9 +1,9 @@
 {
 	"common": {
 		"name": "noolitef",
-		"version": "0.0.1",
+		"version": "0.0.3-1",
 		"news": {
-			"0.0.1": {
+			"0.0.3-1": {
 				"en": "initial release",
 				"de": "Erstveröffentlichung",
 				"ru": "Начальная версия",
@@ -62,7 +62,7 @@
 		"type": "hardware",
 		"compact": true,
 		"materialize": true,
-		"supportCustoms": true,
+		"supportCustoms": false,
 		"messagebox" : true,
 		"message" : true,
 		"dependencies": [
@@ -73,6 +73,7 @@
 	},
 	"native": {
 		"devpath": "/dev/ttyUSB0",
+		"debug" : false,
 		"devices": [],
 		"isMqttOutput":false,
 		"isMqttIutput" : false

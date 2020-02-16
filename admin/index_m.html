@@ -133,6 +133,7 @@
             <ul class="tabs">
                 <li class="tab col s4"><a href="#tab-main" class="translate active">Common</a></li>
                 <li class="tab col s4"><a href="#tab-mqtt" class="translate">MQTT Settings</a></li>
+                <li class="tab col s4"><a href="#tab-debug" class="translate">Debug</a></li>
             </ul>
         </div>
         <div id="tab-main" class="col s12 page" style="overflow: visible">
@@ -144,8 +145,8 @@
             <div class="row">
                 <div class="col s12">
                 <input class="value" id="devpath" type="text"/>
-                <label class="translate" for="devpath">MTRF64 device</label>
-                </div>
+                <label class="translate" for="devpath">MTRF64 device</label>                    
+            </div>
             </div>
                 <div class="row">
                     <div class="col s12" id="values">
@@ -191,6 +192,19 @@
                 <div class="col s12">
                        <p class="translate">Notes</p>
                 </div>
+        </div>
+    </div>
+    <div id="tab-debug" class="col s12 page">
+        <div class="row" style="margin-bottom: 0">
+            <div class="col s6">
+                <img src="noolitef.png" class="logo">
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 0">
+            <div class="col s12">
+                    <input class="value filled-in" id="debug" type="checkbox"/>
+                    <label class="translate" for="debug">DebugLog</label>
+            </div>            
         </div>
     </div>
     </div>
