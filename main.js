@@ -246,7 +246,8 @@ class Noolitef extends utils.Adapter {
 		this.lastcall = d;
 		const stateName = this.namespace + '.' + name.trim() + '.' + property;
 		if(this.config.debug)
-			this.log.info('handle input events for ' + stateName + ' with data ' + data);
+			this.log.info('handle input events for ' + stateName + 
+											(data !== null?(' with data ' + data):''));
 		if(data === null)
 			this.setState(stateName, {val: true, ack: true});	
 		else 
