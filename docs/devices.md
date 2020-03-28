@@ -72,7 +72,7 @@ The device has the following states:
 
 The device has the following states:
 
-* MotionDetect - set to *true* if the sensor detected movements, otherwise - *false*
+* MotionDetect - set to *true* if the sensor detected movements, otherwise - *false*. This state pass in val object with property "timeout" - in second before relay should be turn off and "timeoutOrigin" - in five-seconds interval according original NOOLITE-F protocol
 * onLowBattery - set *true* if battery is low
   
 ### Switch
