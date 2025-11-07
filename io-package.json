@@ -62,6 +62,7 @@
 		"extIcon": "https://raw.githubusercontent.com/paveltsytovich/ioBroker.noolitef/master/admin/noolitef.png",
 		"readme": "https://github.com/paveltsytovich/ioBroker.noolitef/blob/master/README.md",
 		"loglevel": "info",
+		"tier": 2,
 		"mode": "daemon",
 		"type": "hardware",
 		"compact": true,
