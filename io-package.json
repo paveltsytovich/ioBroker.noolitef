@@ -56,7 +56,6 @@
 		],
 		"license": "MIT",
 		"platform": "Javascript/Node.js",
-		"main": "main.js",
 		"icon": "noolitef.png",
 		"enabled": true,
 		"extIcon": "https://raw.githubusercontent.com/paveltsytovich/ioBroker.noolitef/master/admin/noolitef.png",
