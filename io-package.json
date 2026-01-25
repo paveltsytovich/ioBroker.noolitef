@@ -49,9 +49,7 @@
 			"Pavel Tsytovich <pavel.tsytovich@gmail.com>"
 		],
 		"keywords": [
-			"ioBroker",
 			"template",
-			"Smart Home",
 			"home automation"
 		],
 		"license": "MIT",
