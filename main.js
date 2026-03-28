@@ -22,7 +22,7 @@ const OutputDevices = require('./lib/outputDevices');
 
 
 // Load your modules here, e.g.:
-// const fs = require("fs");
+// const fs = require("node:fs");
 /**
  * @class Noolitef
  * iobroker adapter main class
