@@ -30,6 +30,8 @@ This adapter integrated Noolite-F device into iobroker
 * Timeout between send Noolite command is fixed now. It is occur some problem in different situation
 * In device list protocol must be Noolite-F constantly. Use Noolite protocol only for binding or unbinding operation. This problem will solve in near future version
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## Usage
 
 * For install please read [Installation Guide](/docs/install.md)
