@@ -19,6 +19,10 @@ This adapter integrated Noolite-F device into iobroker
 
 ## Changelog
 
+
+### **WORK IN PROGRESS**
+- (ioBroker-Bot) Adapter requires js-controller >= 6.0.11 now.
+
 ### 0.0.1
 * (Pavel Tsytovich) initial release. Base function for Noolite-F protocol
 
